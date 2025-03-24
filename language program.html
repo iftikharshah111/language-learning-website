@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programs Section</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .navbar {
+            z-index: 2;
+            position: relative;
+        }
+
+        .navbar-collapse {
+            width: 100%;
+            background-color: #f8f9fa;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                padding: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navbar-nav .nav-item {
+                width: 100%;
+                text-align: center;
+                margin: 5px 0;
+            }
+
+            .navbar-nav .nav-link {
+                padding: 10px 0;
+                font-size: 1.1rem;
+            }
+
+            .dropdown-menu {
+                position: static;
+                width: 100%;
+                text-align: center;
+                border: none;
+                box-shadow: none;
+            }
+
+            .nav-item.dropdown:hover .dropdown-menu {
+                display: none;
+            }
+
+            .nav-item.dropdown .dropdown-menu.show {
+                display: block;
+            }
+        }
+
+        .main-content {
+            padding-top: 0;
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 5px 10px;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            width: auto;
+        }
+
+        .programs-section {
+            padding: 60px 0;
+            background-color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .tab-item label {
+            padding: 8px 16px;
+            cursor: pointer;
+            background: #fff;
+            color: #333;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 5px 5px 0 0;
+            transition: border 0.3s ease, font-weight 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            /* Added animation properties */
+            z-index: 1;
+            position: relative;
+            /* For pseudo-element */
+            overflow: hidden;
+            /* Contain shine effect */
+        }
+
+        input[name="program"] {
+            display: none;
+        }
+
+        .tab-icon {
+            font-size: 12px;
+            color: #333;
+            transition: transform 0.3s ease;
+            /* Added animation */
+        }
+
+        .tab-item label:hover .tab-icon,
+        #intensive:checked~.tabs .tab-item[for="intensive"] .tab-icon,
+        #long-term:checked~.tabs .tab-item[for="long-term"] .tab-icon,
+        #specialized:checked~.tabs .tab-item[for="specialized"] .tab-icon,
+        #language:checked~.tabs .tab-item[for="language"] .tab-icon {
+            color: inherit;
+            transform: rotate(10deg);
+            /* Hover/active animation */
+        }
+
+        .hr {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #FF4D4D;
+            display: none;
+            z-index: 0;
+            transform: scaleX(0);
+            /* Animation start */
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            /* Animation */
+        }
+
+        .tab-item label:hover {
+            border-top: 2px solid #E63946;
+            border-right: 2px solid #E63946;
+            border-left: 2px solid #E63946;
+            font-weight: 700;
+            transform: translateY(-2px);
+            /* Hover lift */
+            box-shadow: 0 4px 10px rgba(230, 57, 70, 0.2);
+            /* Hover shadow */
+        }
+
+        /* Shine effect on hover */
+        .tab-item label::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 77, 77, 0.2), transparent);
+            transition: top 0.5s ease;
+            z-index: -1;
+        }
+
+        .tab-item label:hover::after {
+            top: 100%;
+        }
+
+        #intensive:checked~.tabs .tab-item[for="intensive"] .hr,
+        #long-term:checked~.tabs .tab-item[for="long-term"] .hr,
+        #specialized:checked~.tabs .tab-item[for="specialized"] .hr,
+        #language:checked~.tabs .tab-item[for="language"] .hr {
+            display: block;
+            transform: scaleX(1);
+            /* Animation on active */
+        }
+
+        #intensive:checked~.tabs .tab-item[for="intensive"] label,
+        #long-term:checked~.tabs .tab-item[for="long-term"] label,
+        #specialized:checked~.tabs .tab-item[for="specialized"] label,
+        #language:checked~.tabs .tab-item[for="language"] label {
+            background-color: #FF4D4D;
+            color: #fff;
+            border-top: 2px solid #E63946;
+            border-right: 2px solid #E63946;
+            border-left: 2px solid #E63946;
+            font-weight: 700;
+            transform: translateY(-2px);
+            /* Active lift */
+            box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
+            /* Active shadow */
+        }
+
+        .tab-item label:focus {
+            outline: 2px solid #FF4D4D;
+            outline-offset: 2px;
+        }
+
+        .tab-content-wrapper {
+            position: relative;
+            min-height: 300px;
+        }
+
+        .tab-content {
+            display: none;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        #intensive:checked~.tab-content-wrapper .intensive-programs,
+        #long-term:checked~.tab-content-wrapper .long-term-programs,
+        #specialized:checked~.tab-content-wrapper .specialized-programs,
+        #language:checked~.tab-content-wrapper .language-trainings {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 0.6s ease-out forwards;
+            /* Added fade-in animation */
+        }
+
+        .programs-image,
+        .card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+        }
+
+        #intensive:checked~.tab-content-wrapper .intensive-programs .programs-image,
+        #intensive:checked~.tab-content-wrapper .intensive-programs .card,
+        #long-term:checked~.tab-content-wrapper .long-term-programs .programs-image,
+        #long-term:checked~.tab-content-wrapper .long-term-programs .card,
+        #specialized:checked~.tab-content-wrapper .specialized-programs .programs-image,
+        #specialized:checked~.tab-content-wrapper .specialized-programs .card,
+        #language:checked~.tab-content-wrapper .language-trainings .programs-image,
+        #language:checked~.tab-content-wrapper .language-trainings .card {
+            opacity: 1;
+            transform: translateY(0);
+            animation: slideUp 0.4s ease-in-out forwards;
+            /* Kept your original animation */
+        }
+
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        /* Added fade-in animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .card {
+            width: 100%;
+            background: #F9F9F9;
+            padding: 15px;
+            border-radius: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Added hover animation */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            /* Hover lift */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            /* Hover shadow */
+        }
+
+        .programs-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+            /* Added hover animation */
+        }
+
+        .programs-image:hover {
+            transform: scale(1.02);
+            /* Slight zoom on hover */
+        }
+
+        .course-description {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .course-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        .course-list li {
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            text-transform: uppercase;
+            transition: transform 0.3s ease, color 0.3s ease;
+            /* Added hover animation */
+        }
+
+        .course-list li:hover {
+            transform: translateX(5px);
+            /* Shift right on hover */
+            color: #FF4D4D;
+            /* Color change on hover */
+        }
+
+        .checkmark {
+            color: #FF4D4D;
+            margin-right: 8px;
+            font-size: 14px;
+            transition: transform 0.3s ease;
+            /* Added animation */
+        }
+
+        .course-list li:hover .checkmark {
+            transform: scale(1.2);
+            /* Enlarge checkmark on hover */
+        }
+
+        @media (max-width: 991px) {
+            .programs-section {
+                padding: 40px 0;
+            }
+
+            .tab-item label {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+
+            .tab-icon {
+                font-size: 11px;
+            }
+
+            .course-description {
+                font-size: 12px;
+            }
+
+            .course-list li {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .programs-section {
+                padding: 30px 0;
+            }
+
+            .tabs {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .tab-item {
+                text-align: center;
+                width: 100%;
+            }
+
+            .tab-item label {
+                padding: 6px 12px;
+                font-size: 10px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .tab-icon {
+                font-size: 10px;
+            }
+
+            .hr {
+                bottom: 0;
+            }
+
+            .programs-image {
+                margin-bottom: 15px;
+            }
+
+            .course-description {
+                font-size: 11px;
+            }
+
+            .course-list li {
+                font-size: 10px;
+            }
+
+            .card {
+                padding: 12px;
+            }
+
+            .tab-content {
+                position: static;
+                display: none;
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+
+            #intensive:checked~.tab-content-wrapper .intensive-programs,
+            #long-term:checked~.tab-content-wrapper .long-term-programs,
+            #specialized:checked~.tab-content-wrapper .specialized-programs,
+            #language:checked~.tab-content-wrapper .language-trainings {
+                display: block;
+                position: static;
+            }
+
+            .tab-content-wrapper {
+                min-height: auto;
+            }
+
+            .programs-image,
+            .card {
+                opacity: 1;
+                transform: none;
+                transition: none;
+                animation: none;
+            }
+        }
+
+        .program-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: left;
+            margin-bottom: 20px;
+            animation: cardReveal 1s ease-out forwards;
+            /* Load animation */
+        }
+
+        /* Staggered animation delays for cards */
+        .containercard .row>div:nth-child(1) .program-card {
+            animation-delay: 0.1s;
+        }
+
+        .containercard .row>div:nth-child(2) .program-card {
+            animation-delay: 0.3s;
+        }
+
+        .containercard .row>div:nth-child(3) .program-card {
+            animation-delay: 0.5s;
+        }
+
+        .containercard .row>div:nth-child(4) .program-card {
+            animation-delay: 0.7s;
+        }
+
+        .program-card:hover {
+            transform: translateY(-10px);
+            /* Hover lift */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            /* Hover shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Added animation */
+        }
+
+        .program-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            /* Added hover animation */
+        }
+
+        .program-card:hover img {
+            transform: scale(1.05);
+            /* Zoom on hover */
+        }
+
+        .program-card .content {
+            padding: 15px;
+        }
+
+        .program-card h3 {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .program-card a {
+            color: teal;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            /* Added hover animation */
+        }
+
+        .program-card a:hover {
+            color: #FF4D4D;
+            /* Color change on hover */
+        }
+
+        .engagement {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: gray;
+            margin-top: 10px;
+        }
+
+        .engagement label {
+            margin-right: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            /* Added hover animation */
+        }
+
+        .engagement label:hover {
+            transform: scale(1.1);
+            /* Scale on hover */
+        }
+
+        .engagement input[type="checkbox"] {
+            display: none;
+        }
+
+        .engagement input[type="checkbox"]:checked+i {
+            color: red;
+            animation: pulse 0.5s ease infinite;
+            /* Pulse when checked */
+        }
+
+        /* Added keyframes for animations */
+        @keyframes cardReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .containercard {
+            margin-top: 70px;
+        }
+
+        .cut {
+            margin-top: 150px;
+        }
+
+        .h2 {
+            margin-bottom: 70px;
+        }
+         /* Footer */
+   .footer {
+            padding: 70px 0;
+            background: #343a40;
+            color: grey;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .footer a,
+        .footer p,
+        .footer h5 {
+            color: grey;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .footer a:hover,
+        .footer p:hover,
+        .footer h5:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="../language learning website/assets/language_logo-removebg-preview.png" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../language learning website/home page.html">Home</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"
+                            href="../language learning website/courses.html">Courses</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Features
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../language learning website/about us .html">About Us</a>
+                            </li>
+                            <li><a class="dropdown-item" href="../language learning website/language program.html">Language Programs</a></li>
+                            <li><a class="dropdown-item" href="../language learning website/team.html">Team</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"
+                            href="../language learning website/contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary text-white"
+                            href="../language learning website/signup.html">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Programs Section -->
+    <section class="programs-section">
+        <div class="container">
+            <input type="radio" name="program" id="intensive" checked>
+            <input type="radio" name="program" id="long-term">
+            <input type="radio" name="program" id="specialized">
+            <input type="radio" name="program" id="language">
+
+            <div class="tabs">
+                <div class="tab-item">
+                    <i class="fas fa-pencil-alt tab-icon"></i>
+                    <label for="intensive">Intensive Programs</label>
+                    <hr class="hr">
+                </div>
+                <div class="tab-item">
+                    <i class="fas fa-clock tab-icon"></i>
+                    <label for="long-term">Long-Term Programs</label>
+                    <hr class="hr">
+                </div>
+                <div class="tab-item">
+                    <i class="fas fa-graduation-cap tab-icon"></i>
+                    <label for="specialized">Specialized Programs</label>
+                    <hr class="hr">
+                </div>
+                <div class="tab-item">
+                    <i class="fas fa-briefcase tab-icon"></i>
+                    <label for="language">Language Trainings</label>
+                    <hr class="hr">
+                </div>
+            </div>
+
+            <div class="tab-content-wrapper">
+                <div class="tab-content intensive-programs">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+                                class="programs-image" alt="Students with books">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <p class="course-description">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices ipsum non
+                                    mattis pharetra. Integer laoreet non felis sit amet pharetra. Integer mollis eget
+                                    felis non finibus. Nullam nibh mauris, fermentum vitae felis vehicula, aliquam
+                                    bibendum sapien. In euismod velit vitae neque rhoncus congue. Aliquam luctus, sapien
+                                    in consectetur cursus, quam urna euismod magna, sed pellentesque massa libero eu
+                                    lorem. Aenean rhoncus gravida nisl. Nam ac nisl non ipsum vestibulum vehicula
+                                    vulputate sagittis magna. Aenean est nisl, convallis volutpat tempor ac, tempus ac
+                                    ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                                    inceptos himenaeos. Fusce rhoncus sodales tempor. Nunc pretium tortor felis, eget
+                                    cursus magna accumsan. Sed nec blandit nibh.
+                                </p>
+                                <ul class="course-list">
+                                    <li><span class="checkmark">✔</span> Lingvo Diving</li>
+                                    <li><span class="checkmark">✔</span> 30-60-90 Business</li>
+                                    <li><span class="checkmark">✔</span> Summer language camp for children</li>
+                                    <li><span class="checkmark">✔</span> Business Intensive</li>
+                                    <li><span class="checkmark">✔</span> Intensive Grammar</li>
+                                    <li><span class="checkmark">✔</span> Children′s intensive</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content long-term-programs">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+                                class="programs-image" alt="Students studying">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <p class="course-description">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices ipsum non
+                                    mattis pharetra. Integer laoreet non felis sit amet pharetra. Integer mollis eget
+                                    felis non finibus. Nullam nibh mauris, fermentum vitae felis vehicula, aliquam
+                                    bibendum sapien. In euismod velit vitae neque rhoncus congue. Aliquam luctus, sapien
+                                    in consectetur cursus, quam urna euismod magna, sed pellentesque massa libero eu
+                                    lorem. Aenean rhoncus gravida nisl. Nam ac nisl non ipsum vestibulum vehicula
+                                    vulputate sagittis magna. Aenean est nisl, convallis volutpat tempor ac, tempus ac
+                                    ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                                    inceptos himenaeos. Fusce rhoncus sodales tempor. Nunc pretium tortor felis, eget
+                                    cursus magna accumsan. Sed nec blandit nibh. Pellentesque commodo suscipit gravida.
+                                    Sed sit amet ex sed mi dignissim elementum in ut quam.
+                                </p>
+                                <ul class="course-list">
+                                    <li><span class="checkmark">✔</span> Fluent English</li>
+                                    <li><span class="checkmark">✔</span> FCE, CAE, CPE</li>
+                                    <li><span class="checkmark">✔</span> For Children</li>
+                                    <li><span class="checkmark">✔</span> Bilingual Studies for Children</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content specialized-programs">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <img src="../language learning website/assets/07.jpg"
+                                class="programs-image" alt="Students in class">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <p class="course-description">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices ipsum non
+                                    mattis pharetra. Integer laoreet non felis sit amet pharetra. Integer mollis eget
+                                    felis non finibus. Nullam nibh mauris, fermentum vitae felis vehicula, aliquam
+                                    bibendum sapien. In euismod velit vitae neque rhoncus congue. Aliquam luctus, sapien
+                                    in consectetur cursus, quam urna euismod magna, sed pellentesque massa libero eu
+                                    lorem. Aenean rhoncus gravida nisl. Nam ac nisl non ipsum vestibulum vehicula
+                                    vulputate sagittis magna. Aenean est nisl, convallis volutpat tempor ac, tempus ac
+                                    ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                                    inceptos himenaeos. Fusce rhoncus sodales tempor. Nunc pretium tortor felis, eget
+                                    cursus magna accumsan. Sed nec blandit nibh.
+                                </p>
+                                <ul class="course-list">
+                                    <li><span class="checkmark">✔</span> English for Banking and Finance</li>
+                                    <li><span class="checkmark">✔</span> English for hotels and restaurants</li>
+                                    <li><span class="checkmark">✔</span> English for medicine</li>
+                                    <li><span class="checkmark">✔</span> English for Lawyers</li>
+                                    <li><span class="checkmark">✔</span> Maritime English</li>
+                                    <li><span class="checkmark">✔</span> Survival English</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content language-trainings">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <img src="../language learning website/assets/04.jpg"
+                                class="programs-image" alt="Students learning">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <p class="course-description">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices ipsum non
+                                    mattis pharetra. Integer laoreet non felis sit amet pharetra. Integer mollis eget
+                                    felis non finibus. Nullam nibh mauris, fermentum vitae felis vehicula, aliquam
+                                    bibendum sapien. In euismod velit vitae neque rhoncus congue. Aliquam luctus, sapien
+                                    in consectetur cursus, quam urna euismod magna, sed pellentesque massa libero eu
+                                    lorem. Aenean rhoncus gravida nisl. Nam ac nisl non ipsum vestibulum vehicula
+                                    vulputate sagittis magna. Aenean est nisl, convallis volutpat tempor ac, tempus ac
+                                    ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                                    inceptos himenaeos. Fusce rhoncus sodales tempor. Nunc pretium tortor felis, eget
+                                    cursus magna accumsan. Sed nec blandit nibh.
+                                </p>
+                                <ul class="course-list">
+                                    <li><span class="checkmark">✔</span> Efficient Negotiating</li>
+                                    <li><span class="checkmark">✔</span> Effective presentations</li>
+                                    <li><span class="checkmark">✔</span> Business Communication</li>
+                                    <li><span class="checkmark">✔</span> International record-keeping</li>
+                                    <li><span class="checkmark">✔</span> Mini-МВA</li>
+                                    <li><span class="checkmark">✔</span> English Discussion Club</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="cut">
+    <div class="containercard text-center">
+        <h2 class="h2">Language Programs</h2>
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="program-card">
+                    <img src="../language learning website/assets/06.jpg" alt="French Course">
+                    <div class="content">
+                        <h3>FRENCH & COOKING COURSE IN FRANCE</h3>
+                        <a href="#">Professional English, Services</a>
+                        <div class="engagement">
+                            <label>
+                                <input type="checkbox">
+                                <i class="fas fa-heart"></i> <span>11</span>
+                            </label>
+                            <span><i class="fas fa-comment"></i> 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="program-card">
+                    <img src="../language learning website/assets/08.jpg" alt="Academic English">
+                    <div class="content">
+                        <h3>EAS – ENGLISH FOR ACADEMIC STUDIES</h3>
+                        <a href="#">Professional English, Services</a>
+                        <div class="engagement">
+                            <label>
+                                <input type="checkbox">
+                                <i class="fas fa-heart"></i> <span>26</span>
+                            </label>
+                            <span><i class="fas fa-comment"></i> 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="program-card">
+                    <img src="../language learning website/assets/kids studiyng.jpg" alt="Summer Camps">
+                    <div class="content">
+                        <h3>SUMMER CAMPS</h3>
+                        <a href="#">For Kids, Services</a>
+                        <div class="engagement">
+                            <label>
+                                <input type="checkbox">
+                                <i class="fas fa-heart"></i> <span>8</span>
+                            </label>
+                            <span><i class="fas fa-comment"></i> 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="program-card">
+                    <img src="../language learning website/assets/kids group only.avif" alt="Kids Classes">
+                    <div class="content">
+                        <h3>KIDS ONLY CLASSES: AGES 3-5, 5-8 AND 8-10</h3>
+                        <a href="#">For Kids, Services</a>
+                        <div class="engagement">
+                            <label>
+                                <input type="checkbox">
+                                <i class="fas fa-heart"></i> <span>15</span>
+                            </label>
+                            <span><i class="fas fa-comment"></i> 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="program-card">
+                    <img src="../language learning website/assets/parent kid.jpg" alt="Summer Camps">
+                    <div class="content">
+                        <h3>Parents & Tots Classes: Ages 1-3</h3>
+                        <a href="#">English Program, For Kids</a>
+                        <div class="engagement">
+                            <label>
+                                <input type="checkbox">
+                                <i class="fas fa-heart"></i> <span>11</span>
+                            </label>
+                            <span><i class="fas fa-comment"></i> 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="program-card">
+                    <img src="../language learning website/assets/03.jpg" alt="Summer Camps">
+                    <div class="content">
+                        <h3>Business English</h3>
+                        <a href="#">English Program, Professional English</a>
+                        <div class="engagement">
+                            <label>
+                                <input type="checkbox">
+                                <i class="fas fa-heart"></i> <span>14</span>
+                            </label>
+                            <span><i class="fas fa-comment"></i> 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="program-card">
+                    <img src="../language learning website/assets/aduslt studiying.jpg" alt="Summer Camps">
+                    <div class="content">
+                        <h3>Everyday English Program</h3>
+                        <a href="#">English Program</a>
+                        <div class="engagement">
+                            <label>
+                                <input type="checkbox">
+                                <i class="fas fa-heart"></i> <span>8</span>
+                            </label>
+                            <span><i class="fas fa-comment"></i> 12</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="program-card">
+                    <img src="../language learning website/assets/09.jpg" alt="Summer Camps">
+                    <div class="content">
+                        <h3>Part-Time Daytime Program</h3>
+                        <a href="#">English Program</a>
+                        <div class="engagement">
+                            <label>
+                                <input type="checkbox">
+                                <i class="fas fa-heart"></i> <span>11</span>
+                            </label>
+                            <span><i class="fas fa-comment"></i> 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ <!-- Footer Section -->
+ <footer class="footer text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>Contact Us</h5>
+                <p>Email: <a href="mailto:support@languagelearning.com">support@languagelearning.com</a></p>
+                <p>Phone: <a href="tel:+1234567890">+123 456 7890</a></p>
+                <p>Address: 123 Learning St, Language City</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Quick Links</h5>
+                <p><a href="#about">About Us</a></p>
+                <p><a href="#courses">Courses</a></p>
+            </div>
+            <div class="col-md-4">
+                <h5>Follow Us</h5>
+                <p>
+                    <a href="#" aria-label="Facebook">Facebook</a>
+                    <a href="#" aria-label="Twitter">Twitter</a>
+                    <a href="#" aria-label="Instagram">Instagram</a>
+                </p>
+            </div>
+        </div>
+        <p class="mt-4">© 2025 Language Learning Platform. All rights reserved.</p>
+    </div>
+</footer>
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

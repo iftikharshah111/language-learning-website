@@ -1,0 +1,2287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Language Learning Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* Consolidated body styles */
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            position: relative;
+            z-index: 1;
+        }
+
+       
+       /* Ensure navbar stays on top and removes fixed height */
+.navbar {
+    z-index: 2;
+    position: relative;
+    /* Removed height: 70px; to allow dynamic expansion */
+}
+
+/* Style the navbar collapse to push content down */
+.navbar-collapse {
+    width: 100%;
+    background-color: #f8f9fa; /* Match the navbar background */
+}
+
+/* On smaller screens, ensure the menu items stack vertically and push content down */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        position: absolute;
+        top: 100%; /* Position the menu below the navbar */
+        left: 0;
+        right: 0;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar-nav .nav-item {
+        width: 100%;
+        text-align: center;
+        margin: 5px 0;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 10px 0;
+        font-size: 1.1rem;
+    }
+
+    /* Ensure dropdown menu aligns properly on mobile */
+    .dropdown-menu {
+        position: static;
+        width: 100%;
+        text-align: center;
+        border: none;
+        box-shadow: none;
+    }
+
+    /* Disable hover effect on mobile */
+    .nav-item.dropdown:hover .dropdown-menu {
+        display: none;
+    }
+
+    .nav-item.dropdown .dropdown-menu.show {
+        display: block;
+    }
+}
+
+/* Add padding to the main content to prevent overlap with the navbar */
+.main-content {
+    padding-top:0; /* Match the approximate height of the navbar */
+}
+
+/* Adjust carousel padding on smaller screens */
+@media (max-width: 768px) {
+    .carousel {
+        padding-top: 0; /* Remove extra padding since main-content handles it */
+    }
+}
+
+/* Style the hamburger icon for better visibility */
+.navbar-toggler {
+    border: none;
+    padding: 5px 10px;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Ensure the navbar brand logo doesn't overlap with the toggler */
+.navbar-brand img {
+    height: 50px;
+    width: auto;
+   
+}
+
+        /* Slide-in animation for carousel caption */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .carousel-caption {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            transform: translateY(-50%);
+            text-align: center;
+            opacity: 0;
+            animation: slideInLeft 1.2s ease-in-out forwards;
+        }
+
+        .carousel-item img {
+            max-height: 90vh;
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .carousel {
+                padding-top: 70px; /* Prevent overlap with navbar */
+            }
+            .carousel-item img {
+                min-height: 50vh;
+            }
+            .carousel-caption h2 {
+                font-size: 1.2rem;
+            }
+            .carousel-caption .btn {
+                padding: 5px 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-item img {
+                min-height: 40vh;
+            }
+            .carousel-caption h2 {
+                font-size: 1rem;
+            }
+            .carousel-caption .btn {
+                padding: 4px 8px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Info Section */
+        .info-section {
+            background-color: #0097a7;
+            color: #fff;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .info-box {
+            padding: 20px;
+        }
+
+        .info-box i {
+            font-size: 40px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .info-box h4 {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+
+        @media (max-width: 768px) {
+            .info-box {
+                margin-bottom: 20px;
+            }
+        }
+/* cources */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .tabs label {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #ffffff;
+            color: black;
+        }
+
+        input[name="language"] {
+            display: none;
+        }
+
+        .tab-content {
+            display: none;
+            animation: slideUp 0.5s ease-in-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #english:checked~.english,
+        #german:checked~.german,
+        #spanish:checked~.spanish,
+        #french:checked~.french {
+            display: block;
+        }
+
+        .courses {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            text-align: center;
+        }
+        .w-50{
+   position: relative;
+            border-radius: 7px;
+            width: 100px !important;
+            left: 50px;
+        }
+        .card {
+            width: 300px;
+            background: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border-radius: 0%;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .tabs>label:hover {
+            border-top: 2px solid red;
+            border-right: 2px solid rgb(211, 211, 211);
+            border-left: 2px solid rgb(211, 211, 211);
+            font-weight: 700;
+
+        }
+        @media (max-width:480px) {
+            .tabs  {
+                min-width :150px; ;
+                flex-direction: column;
+                display: flex;
+
+            }
+        }
+        .hr{
+            color: black;
+            position: relative;
+            bottom: 20px;
+        }
+        h5 {
+            font-size: smaller;
+            font-weight: 700;
+        }
+
+        /* School News, Opening Hours, and Find Your Course */
+        .coloredform {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .info-section {
+            padding: 40px 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .school-news {
+            background-color: #e74c3c;
+        }
+
+        .opening-hours {
+            background-color: #e2a93b;
+        }
+
+        .find-course {
+            background-color: #0097a7;
+        }
+
+        .info-section h3 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .info-section hr {
+            border-top: 1px solid rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+            width: 50%;
+        }
+
+        .info-section p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .info-section a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .info-section a:hover {
+            text-decoration: underline;
+        }
+
+        .form-control {
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: #0097a7;
+        }
+
+        .send {
+            background-color: white;
+            color: #0097a7;
+            font-weight: bold;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .send:hover {
+            background-color: #0097a7;
+            color: white;
+            border: 3px solid white;
+        }
+
+        @media (max-width: 768px) {
+            .info-section {
+                padding: 30px 15px;
+            }
+            .info-section h3 {
+                font-size: 20px;
+            }
+            .info-section p {
+                font-size: 14px;
+            }
+            .form-control {
+                padding: 8px;
+            }
+            .send {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .info-section {
+                padding: 20px 10px;
+            }
+            .info-section h3 {
+                font-size: 18px;
+            }
+            .info-section p {
+                font-size: 12px;
+            }
+            .form-control {
+                padding: 6px;
+            }
+            .send {
+                padding: 6px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Background Image and Stats */
+        .background-image {
+            background-image: url('./assets/flat-lay-desktop-with-coffee-cup-keyboard.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: scroll;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: -2;
+            top: 0;
+            left: 0;
+            margin-top: 0%;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+            text-align: center;
+            background-color: transparent; /* Made transparent */
+        }
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .stat {
+            background-color: rgba(255, 255, 255, 0.09); /* Increased opacity for better readability */
+            padding: 20px;
+            border-radius:0;
+            width: 200px;
+            color: #fff;
+        }
+
+        .stat h2 {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Added text shadow for readability */
+        }
+
+        .stat p {
+            font-size: 1.2rem;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Added text shadow for readability */
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .stat {
+                width: 180px;
+            }
+            .stat h2 {
+                font-size: 2rem;
+            }
+            .stat p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stat {
+                width: 100%;
+                max-width: 250px;
+            }
+            .stat h2 {
+                font-size: 1.8rem;
+            }
+            .stat p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            background-color: #e6ad4b;
+            padding: 20px 0;
+        }
+
+        .newsletter-text {
+            font-size: 24px;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            letter-spacing: 0.2px;
+        }
+
+        .newsletter-section .form-control {
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .newsletter-section .form-control::placeholder {
+            color: white;
+            opacity: 0.7;
+        }
+
+        .subscribe-btn {
+            background-color: white;
+            color: #e6ad4b;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+        }
+
+        .subscribe-btn:hover {
+            background-color: #fff3d4;
+            color: #c98a30;
+        }
+
+        @media (max-width: 768px) {
+            .newsletter-text {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+            .newsletter-section .form-control,
+            .subscribe-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .newsletter-text {
+                font-size: 18px;
+            }
+            .newsletter-section .form-control {
+                margin-bottom: 10px;
+            }
+            .subscribe-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+
+      /* Latest News Section */
+.tankto {
+    background-color: white;
+}
+
+.latestnews {
+    padding: 0 !important;
+}
+
+.item {
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+}
+
+.item-container {
+    flex-direction: row; /* Default layout */
+}
+
+.item-img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+}
+
+.item-body {
+    flex: 1;
+    padding: 1.5rem;
+}
+
+.item-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+}
+
+.item-text {
+    font-size: 0.875rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.item-footer {
+    background-color: transparent;
+    padding: 0;
+}
+
+.text-author {
+    font-size: 0.8125rem;
+    color: #00A1A7;
+}
+
+.text-category {
+    font-size: 0.8125rem;
+    color: #00A1A7;
+}
+
+.item-footer i {
+    font-size: 0.8125rem;
+    margin-right: 0.3rem;
+    color: #6c757d;
+}
+
+.item-footer span {
+    font-size: 0.8125rem;
+    color: #6c757d;
+}
+
+.heart-container {
+    display: inline-block;
+}
+
+.heart-checkbox {
+    display: none;
+}
+
+.heart-label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.heart-checkbox:checked + .heart-label .heart-icon {
+    color: #ff4d4d;
+}
+
+.heart-checkbox:checked + .heart-label .bi-heart::before {
+    content: "\f415";
+}
+
+/* Desktop layout: alternate directions */
+@media (min-width: 992px) {
+    .item:nth-child(1) .item-container {
+        flex-direction: row; /* Image on left, text on right */
+    }
+    .item:nth-child(2) .item-container {
+        flex-direction: row; /* Image on left, text on right */
+    }
+    .item:nth-child(3) .item-container {
+        flex-direction: row-reverse; /* Image on right, text on left */
+    }
+    .item:nth-child(4) .item-container {
+        flex-direction: row-reverse; /* Image on right, text on left */
+    }
+}
+
+/* Tablet layout: ensure image on left, text on right for all items */
+@media (min-width: 768px) and (max-width: 991px) {
+    .latestnews .item .item-container {
+        flex-direction: row !important; /* Override any other rules */
+    }
+    .item:nth-child(1) .item-container,
+    .item:nth-child(2) .item-container,
+    .item:nth-child(3) .item-container,
+    .item:nth-child(4) .item-container {
+        flex-direction: row !important; /* Ensure consistency */
+    }
+    .item-img {
+        width: 200px;
+        height: 200px;
+    }
+    .item-body {
+        padding: 1rem;
+    }
+    .item-title {
+        font-size: 0.9375rem;
+    }
+    .item-text {
+        font-size: 0.8125rem;
+    }
+    .text-author,
+    .text-category {
+        font-size: 0.75rem;
+    }
+    .item-footer i,
+    .item-footer span {
+        font-size: 0.75rem;
+    }
+}
+
+/* Mobile layout: stack image on top, text below */
+@media (max-width: 767px) {
+    .item-container {
+        flex-direction: column !important;
+    }
+    .item-img {
+        width: 100%;
+        height: 200px;
+    }
+    .item-body {
+        padding: 1rem;
+    }
+    .item-title {
+        font-size: 0.9375rem;
+    }
+    .item-text {
+        font-size: 0.8125rem;
+    }
+    .text-author,
+    .text-category {
+        font-size: 0.75rem;
+    }
+    .item-footer i,
+    .item-footer span {
+        font-size: 0.75rem;
+    }
+}
+
+/* Mobile adjustments for smaller screens */
+@media (max-width: 576px) {
+    .item-img {
+        height: 150px;
+    }
+    .item-title {
+        font-size: 0.875rem;
+    }
+    .item-text {
+        font-size: 0.75rem;
+    }
+    .text-author,
+    .text-category {
+        font-size: 0.6875rem;
+    }
+    .item-footer i,
+    .item-footer span {
+        font-size: 0.6875rem;
+    }
+}
+
+        /* Language School Section */
+        .language-school-section {
+            background-image: url('./assets/youngsters-coworking-with-laptop.jpg');
+            background-position: center;
+            background-size: cover;
+            padding: 4rem 0;
+            background-blend-mode:luminosity;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        .language-school-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6f61;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: #5b5b5b;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-text {
+            font-size: 0.875rem;
+            color: #5d5d5d;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .text-column {
+            flex: 1;
+            padding-right: 1rem;
+        }
+
+        .progress-content {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .progress-bars {
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-label {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #333;
+            text-transform: uppercase;
+            width: 80px;
+        }
+
+        .progress-bar-container {
+            flex: 1;
+            height: 8px;
+            background-color: #e9ecef;
+            margin: 0 0.75rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: var(--progress);
+            animation: fillProgress 2s ease-in-out forwards;
+        }
+
+        @keyframes fillProgress {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--progress);
+            }
+        }
+
+        .progress-french {
+            background-color: #00A1A7;
+        }
+
+        .progress-english {
+            background-color: #FFC107;
+        }
+
+        .progress-german {
+            background-color: #FF4D4D;
+        }
+
+        .progress-value {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #333;
+            width: 40px;
+            text-align: right;
+        }
+
+        .section-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            object-fit: cover;
+        }
+
+        @media (min-width: 992px) {
+            .text-content {
+                padding-right: 2rem;
+            }
+            .image-content {
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991px) {
+            .text-content {
+                margin-bottom: 2rem;
+            }
+            .d-flex {
+                flex-direction: column !important;
+                align-items: center;
+            }
+            .text-column {
+                padding-right: 0;
+                margin-bottom: 1rem;
+            }
+            .progress-item {
+                justify-content: center;
+            }
+            .progress-label {
+                width: 70px;
+            }
+            .progress-value {
+                width: 30px;
+            }
+            .section-image {
+                max-width: 400px;
+                margin: 0 auto;
+                display: block;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .section-subtitle {
+                font-size: 0.875rem;
+            }
+            .section-text {
+                font-size: 0.75rem;
+            }
+            .progress-label {
+                font-size: 0.75rem;
+                width: 60px;
+            }
+            .progress-value {
+                font-size: 0.75rem;
+                width: 25px;
+            }
+            .progress-bar-container {
+                height: 6px;
+            }
+            .section-image {
+                max-width: 300px;
+                margin: 0 auto;
+                display: block;
+            }
+            .d-flex {
+                flex-direction: column !important;
+                align-items: center;
+            }
+            .text-column {
+                padding-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Next Course Section */
+        .next-course-section {
+            padding: 1.5rem 0;
+            background-color: #00A1A7;
+            color: #fff;
+        }
+
+        .image-wrapper {
+            width: 120px;
+            height: 120px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-image {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .section-subheading {
+            font-size: 0.75rem;
+            color: #FFD700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+        }
+
+        .section-heading {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timer-item {
+            text-align: center;
+        }
+
+        .timer-value {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .timer-label {
+            font-size: 0.625rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.25rem;
+        }
+
+        .section-cta {
+            font-size: 0.75rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0;
+        }
+
+        .learn-more-btn {
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.75rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #fff;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .learn-more-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (min-width: 992px) {
+            .image-content {
+                display: flex;
+                justify-content: flex-start;
+            }
+            .button-content {
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991px) {
+            .text-content {
+                margin-bottom: 1rem;
+            }
+            .image-content {
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+            .button-content {
+                justify-content: center;
+            }
+            .section-heading {
+                font-size: 1.5rem;
+            }
+            .timer-value {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .image-content {
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+            .button-content {
+                justify-content: center;
+            }
+            .section-subheading {
+                font-size: 0.625rem;
+            }
+            .section-heading {
+                font-size: 1.25rem;
+            }
+            .timer-value {
+                font-size: 1.25rem;
+            }
+            .timer-label {
+                font-size: 0.5rem;
+            }
+            .section-cta {
+                font-size: 0.625rem;
+            }
+            .learn-more-btn {
+                font-size: 0.625rem;
+                padding: 0.3rem 1rem;
+            }
+            .countdown-timer {
+                gap: 1rem;
+            }
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 3rem 0;
+            background-color: white;
+        }
+
+        .member-profile {
+            background-color: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 1.5rem;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .colored-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+
+        .profile-1 .colored-line {
+            background-color: #FFD700;
+        }
+
+        .profile-2 .colored-line,
+        .profile-3 .colored-line,
+        .profile-4 .colored-line {
+            background-color: #00A1A7;
+        }
+
+        .team-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+        }
+
+        .team-name {
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-1 .team-name {
+            color: #FFD700;
+        }
+
+        .profile-2 .team-name,
+        .profile-3 .team-name,
+        .profile-4 .team-name {
+            color: #00A1A7;
+        }
+
+        .team-role {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .profile-1 .team-role {
+            color: #FFD700;
+        }
+
+        .profile-2 .team-role,
+        .profile-3 .team-role,
+        .profile-4 .team-role {
+            color: #00A1A7;
+        }
+
+        .team-description {
+            font-size: 0.875rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .social-icon {
+            font-size: 1rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon .bi-linkedin {
+            color: #0077B5;
+        }
+
+        .social-icon .bi-facebook {
+            color: #3B5998;
+        }
+
+        .social-icon .bi-twitter {
+            color: #1DA1F2;
+        }
+
+        .social-icon .bi-instagram {
+            color: #E1306C;
+        }
+
+        .social-icon:hover .bi-linkedin {
+            color: #005582;
+        }
+
+        .social-icon:hover .bi-facebook {
+            color: #2D4373;
+        }
+
+        .social-icon:hover .bi-twitter {
+            color: #1A91DA;
+        }
+
+        .social-icon:hover .bi-instagram {
+            color: #C13584;
+        }
+
+        @media (max-width: 767.98px) {
+            .team-section .row > .col {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+                margin-bottom: 20px;
+            }
+            .member-profile {
+                padding: 1rem;
+            }
+            .team-image {
+                width: 100px;
+                height: 100px;
+            }
+            .team-name {
+                font-size: 0.75rem;
+            }
+            .team-role {
+                font-size: 0.625rem;
+            }
+            .team-description {
+                font-size: 0.75rem;
+            }
+            .social-icons {
+                gap: 0.5rem;
+            }
+            .social-icon {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .team-section .row > .col {
+                flex: 0 0 50% !important;
+                max-width: 50% !important;
+                margin-bottom: 20px;
+            }
+            .member-profile {
+                padding: 1rem;
+            }
+            .team-image {
+                width: 120px;
+                height: 120px;
+            }
+            .team-name {
+                font-size: 0.875rem;
+            }
+            .team-role {
+                font-size: 0.625rem;
+            }
+            .team-description {
+                font-size: 0.75rem;
+            }
+            .social-icons {
+                gap: 0.5rem;
+            }
+            .social-icon {
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .team-section .row > .col {
+                flex: 0 0 25% !important;
+                max-width: 25% !important;
+            }
+            .member-profile {
+                padding: 1.5rem;
+            }
+        }
+
+.our-teachers-section {
+    padding: 4rem 0;
+    background-color: #fff;
+    text-align: center;
+}
+
+.our-teachers-section .section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.our-teachers-section .section-description {
+    font-size: 0.875rem;
+    color: #666;
+    line-height: 1.6;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 991px) {
+    .our-teachers-section .section-title {
+        font-size: 1.5rem;
+    }
+
+    .our-teachers-section .section-description {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .our-teachers-section {
+        padding: 2rem 0;
+    }
+
+    .our-teachers-section .section-title {
+        font-size: 1.25rem;
+    }
+
+    .our-teachers-section .section-description {
+        font-size: 0.7rem;
+    }
+}
+       
+
+        .tank {
+            background-color: white;
+        }
+        .happy-students-section {
+        padding: 4rem 0;
+        background-color: #fff;
+        text-align: center;
+    }
+
+    .happy-students-section h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+        text-transform: uppercase;
+        margin-bottom: 3rem;
+    }
+
+    .testimonial-card {
+        margin-bottom: 2rem;
+        text-align: left;
+    }
+
+    .speech-bubble {
+        background-color: #fff;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1.5rem;
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+    .speech-bubble::before {
+        content: '';
+        position: absolute;
+        bottom: -20px;
+        left: 40px;
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 20px solid #e9ecef;
+    }
+
+    .speech-bubble::after {
+        content: '';
+        position: absolute;
+        bottom: -18px;
+        left: 41px;
+        width: 0;
+        height: 0;
+        border-left: 19px solid transparent;
+        border-right: 19px solid transparent;
+        border-top: 19px solid #fff;
+    }
+
+    .speech-bubble h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-card-1 .speech-bubble h3 {
+        color: #26C6DA; /* Teal */
+    }
+
+    .testimonial-card-2 .speech-bubble h3 {
+        color: #F06292; /* Pink */
+    }
+
+    .testimonial-card-3 .speech-bubble h3 {
+        color: #FFCA28; /* Yellow */
+    }
+
+    .speech-bubble p {
+        font-size: 0.9rem;
+        color: #666;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .user-profile img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .user-profile .user-info {
+        background-color: #26C6DA; /* Default to teal */
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    .testimonial-card-1 .user-profile .user-info {
+        background-color: #26C6DA; /* Teal */
+    }
+
+    .testimonial-card-2 .user-profile .user-info {
+        background-color: #F06292; /* Pink */
+    }
+
+    .testimonial-card-3 .user-profile .user-info {
+        background-color: #FFCA28; /* Yellow */
+    }
+
+    .user-profile .user-info h4 {
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .user-profile .user-info p {
+        font-size: 0.8rem;
+        margin: 0;
+        color: #fff;
+        line-height: 1.2;
+    }
+
+    @media (max-width: 768px) {
+        .happy-students-section h2 {
+            font-size: 2rem;
+        }
+        .speech-bubble {
+            padding: 1.25rem;
+        }
+        .speech-bubble h3 {
+            font-size: 1.1rem;
+        }
+        .speech-bubble p {
+            font-size: 0.85rem;
+        }
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+        }
+        .user-profile .user-info {
+            padding: 0.4rem 0.8rem;
+        }
+        .user-profile .user-info h4 {
+            font-size: 0.9rem;
+        }
+        .user-profile .user-info p {
+            font-size: 0.75rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .happy-students-section h2 {
+            font-size: 1.5rem;
+        }
+        .speech-bubble {
+            padding: 1rem;
+        }
+        .speech-bubble h3 {
+            font-size: 1rem;
+        }
+        .speech-bubble p {
+            font-size: 0.8rem;
+        }
+        .user-profile img {
+            width: 35px;
+            height: 35px;
+        }
+        .user-profile .user-info {
+            padding: 0.3rem 0.6rem;
+        }
+        .user-profile .user-info h4 {
+            font-size: 0.85rem;
+        }
+        .user-profile .user-info p {
+            font-size: 0.7rem;
+        }
+    }
+        .happy-students-section h2,
+    .speech-bubble h3,
+    .user-profile .user-info h4 {
+    font-family: 'Montserrat', sans-serif;
+    }
+
+
+ /* Footer */
+ .footer {
+            padding: 70px 0;
+            background: #343a40;
+            color: grey;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .footer a,
+        .footer p,
+        .footer h5 {
+            color: grey;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .footer a:hover,
+        .footer p:hover,
+        .footer h5:hover {
+            color: white;
+        }
+        .cut{
+            height: 150px;
+        }
+        .bgimage{
+            height: 300px;
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="../language learning website/assets/language_logo-removebg-preview.png" alt="Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="../language learning website/home page.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="../language learning website/courses.html">Courses</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Features
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="../language learning website/about us .html">About Us</a></li>
+                        <li><a class="dropdown-item" href="../language learning website/language program.html">Language Programs</a></li>
+                        <li><a class="dropdown-item" href="../language learning website/team.html">Team</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="../language learning website/contact.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link btn btn-primary text-white" href="../language learning website/signup.html">Sign Up</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Add a wrapper for the content to control positioning -->
+<div class="main-content">
+    <div class="tank">
+        <!-- Carousel Section -->
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+            <!-- ... (rest of your carousel code remains unchanged) -->
+        </div>
+        <!-- ... (rest of your content remains unchanged) -->
+    </div>
+</div>
+
+    <div class="tank">
+        <!-- Carousel Section -->
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../language learning website/assets/student-reading-with-books-table-library.jpg" class="d-block w-100" alt="Slide 1">
+                    <div class="carousel-caption">
+                        <h2>Teaching Turning Today’s Learners Into Tomorrow’s Leaders</h2>
+                        <a href="../language learning website/signup.html" class="btn btn-danger">Sign Up Now</a>
+                        <a href="#" class="btn btn-outline-light">Learn More</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../language learning website/assets/thoughtful-black-girl-eyewear-focused-aside-tries-gather-with-thoughts.jpg" class="d-block w-100" alt="Slide 2">
+                    <div class="carousel-caption">
+                        <h2>Learn from the Best Tutors Worldwide</h2>
+                        <a href="../language learning website/signup.html" class="btn btn-danger">Sign Up Now</a>
+                        <a href="#" class="btn btn-outline-light">Learn More</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../language learning website/assets/woman-studying-park.jpg" class="d-block w-100" alt="Slide 3">
+                    <div class="carousel-caption">
+                        <h2>Master a New Language with Ease</h2>
+                        <a href="signin.html" class="btn btn-danger">Sign Up Now</a>
+                        <a href="#" class="btn btn-outline-light">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev" aria-label="Previous Slide">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next" aria-label="Next Slide">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <!-- Info Section -->
+        <section class="info-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="info-box">
+                            <i class="fas fa-envelope"></i>
+                            <h4>Get Quote</h4>
+                            <p>Find the price of your ideal course</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="info-box">
+                            <i class="fas fa-headset"></i>
+                            <h4>Ask a Question</h4>
+                            <p>Not sure what you need? Ask our Advisors</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="info-box">
+                            <i class="fas fa-user-plus"></i>
+                            <h4>Join Today</h4>
+                            <p>Sign Up Now for a Free 30 Day Trial</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Language Tabs -->
+        <p class="h2 text-center mt-5 mb-5">Choose Your Language</p>
+        <div class="tabs">
+            <label for="english">English</label>
+            <label for="german">German</label>
+            <label for="spanish">Spanish</label>
+            <label for="french">French</label>
+        </div>
+    <hr class="hr">
+        <input type="radio" name="language" id="english" checked>
+        <input type="radio" name="language" id="german">
+        <input type="radio" name="language" id="spanish">
+        <input type="radio" name="language" id="french">
+    
+        <!-- English Tab Content -->
+        <div class="tab-content english">
+            <div class="courses">
+                <div class="card">
+                    <img src="../language learning website/assets/kids studiyng.jpg" class="img-fluid" alt="English for Children">
+                    <h5 class="mt-3">English for Children</h5>
+                    <p><a href="#chinese">Chinese</a>, <a href="#english">English</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/aduslt studiying.jpg" class="img-fluid" alt="Business English">
+                    <h5 class="mt-3">Business English</h5>
+                    <p><a href="#english">English</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/girls studiying.jpg" class="img-fluid" alt="English for Travel">
+                    <h5 class="mt-3">English for Travel</h5>
+                    <p><a href="#english">English</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/men studiying.jpg" class="img-fluid" alt="English Grammar">
+                    <h5 class="mt-3">English Grammar</h5>
+                    <p><a href="#english">English</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+            </div>
+        </div>
+    
+        <!-- German Tab Content -->
+        <div class="tab-content german">
+            <div class="courses">
+                <div class="card">
+                    <img src="../language learning website/assets/01.jpg" class="img-fluid" alt="German for Beginners">
+                    <h5 class="mt-3">German for Beginners</h5>
+                    <p><a href="#german">German</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/02.jpg" class="img-fluid" alt="Intermediate German">
+                    <h5 class="mt-3">Intermediate German</h5>
+                    <p><a href="#german">German</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/03.jpg" class="img-fluid" alt="German for Travel">
+                    <h5 class="mt-3">German for Travel</h5>
+                    <p><a href="#german">German</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/04.jpg" class="img-fluid" alt="German Grammar">
+                    <h5 class="mt-3">German Grammar</h5>
+                    <p><a href="#german">German</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Spanish Tab Content -->
+        <div class="tab-content spanish">
+            <div class="courses">
+                <div class="card">
+                    <img src="../language learning website/assets/05.jpg" class="img-fluid" alt="Spanish for Beginners">
+                    <h5 class="mt-3">Spanish for Beginners</h5>
+                    <p><a href="#spanish">Spanish</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/06.jpg" class="img-fluid" alt="Intermediate Spanish">
+                    <h5 class="mt-3">Intermediate Spanish</h5>
+                    <p><a href="#spanish">Spanish</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/07.jpg" class="img-fluid" alt="Spanish for Travel">
+                    <h5 class="mt-3">Spanish for Travel</h5>
+                    <p><a href="#spanish">Spanish</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/08.jpg" class="img-fluid" alt="Spanish Grammar">
+                    <h5 class="mt-3">Spanish Grammar</h5>
+                    <p><a href="#spanish">Spanish</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+            </div>
+        </div>
+    
+        <!-- French Tab Content -->
+        <div class="tab-content french">
+            <div class="courses">
+                <div class="card">
+                    <img src="../language learning website/assets/10.jpg" class="img-fluid" alt="French for Beginners">
+                    <h5 class="mt-3">French for Beginners</h5>
+                    <p><a href="#french">French</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/09.jpg" class="img-fluid" alt="Intermediate French">
+                    <h5 class="mt-3">Intermediate French</h5>
+                    <p><a href="#french">French</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/11.jpg" class="img-fluid" alt="French for Travel">
+                    <h5 class="mt-3">French for Travel</h5>
+                    <p><a href="#french">French</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+                <div class="card">
+                    <img src="../language learning website/assets/12.jpg" class="img-fluid" alt="French Grammar">
+                    <h5 class="mt-3">French Grammar</h5>
+                    <p><a href="#french">French</a></p>
+                    <span class="text-light bg-danger w-50 ms-5">Free</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- School News, Opening Hours, and Find Your Course Section -->
+        <div class="container-fluid mt-5 coloredform pb-5">
+            <div class="row text-center">
+                <div class="col-md-4 info-section school-news">
+                    <h3>School News</h3>
+                    <hr>
+                    <p>Cum sociis natoque penatibus et magnis dis parturient montesmus.<br>
+                    Pro vel nibh et elit mollis commodo et nec augue tristique sed.</p>
+                    <hr>
+                    <a href="#" class="text-white">Read more</a>
+                </div>
+                <div class="col-md-4 info-section opening-hours">
+                    <h3>Opening Hours</h3>
+                    <hr>
+                    <p>Monday - Friday <span class="float-end">8.00 - 17.00</span></p>
+                    <hr>
+                    <p>Saturday <span class="float-end">9.30 - 17.30</span></p>
+                    <hr>
+                    <p>Sunday <span class="float-end">9.30 - 15.00</span></p>
+                </div>
+                <div class="col-md-4 info-section find-course">
+                    <h3>Find Your Course</h3>
+                    <form action="#" method="POST">
+                        <div class="row g-2">
+                            <div class="col-6 mb-3">
+                                <select class="form-control" aria-label="Select language">
+                                    <option>English</option>
+                                    <option>German</option>
+                                    <option>Spanish</option>
+                                    <option>French</option>
+                                </select>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <input type="text" class="form-control" placeholder="Name" aria-label="Name">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <input type="email" class="form-control" placeholder="Email" aria-label="Email">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <input type="text" class="form-control" placeholder="Phone" aria-label="Phone">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <input type="date" class="form-control" aria-label="Date">
+                            </div>
+                            <div class="col-6 mb-3 d-grid">
+                                <button class="btn send" type="submit">SEND MESSAGE</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Image -->
+    <div class="background-image "></div>
+
+    <!-- Content Section -->
+    <section class="content">
+        <div class="stats">
+            <div class="stat">
+                <i class="fas fa-users icon"></i>
+                <h2>258</h2>
+                <p>STUDENTS</p>
+            </div>
+            <div class="stat">
+                <i class="fas fa-book-open icon"></i>
+                <h2>35</h2>
+                <p>LEARNING PROGRAMMES</p>
+            </div>
+            <div class="stat">
+                <i class="fas fa-language icon"></i>
+                <h2>12</h2>
+                <p>LANGUAGE TRAININGS</p>
+            </div>
+            <div class="stat">
+                <i class="fas fa-code-branch icon"></i>
+                <h2>9</h2>
+                <p>BRANCHES</p>
+            </div>
+            <div class="stat">
+                <i class="fas fa-chalkboard-teacher icon"></i>
+                <h2>16</h2>
+                <p>TEACHERS</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section py-4 d-flex align-items-center">
+        <div class="container">
+            <div class="row align-items-center newsletter-container">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="newsletter-text">Subscribe to our Newsletter</p>
+                </div>
+                <div class="col-md-6">
+                    <form class="d-flex flex-column flex-md-row" action="#" method="POST">
+                        <input type="email" class="form-control me-md-2 mb-2 mb-md-0" placeholder="Email *" aria-label="Email">
+                        <button type="submit" class="subscribe-btn">SUBSCRIBE</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="tankto px-5">
+        <div class="container-fluid latestnews ">
+            <h1 class="h1 text-center text-dark mb-5 pt-5">Latest News</h1>
+            <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-0">
+                <div class="col item">
+                    <div class="d-flex item-container">
+                        <img src="../language learning website/assets/04.jpg" class="item-img" alt="Item Image 1">
+                        <div class="item-body d-flex flex-column">
+                            <h5 class="item-title">THREE REASONS WHY ENGLISH SPELLING IS CONFUSING</h5>
+                            <p class="item-text">Temporibus autem quibusdam et aut officiis debitis aut rerum</p>
+                            <div class="item-footer mt-auto d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-author">by Steven Master</small><br>
+                                    <small class="text-category">in News</small>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2"><i class="bi bi-chat"></i> 0</span>
+                                    <div class="heart-container">
+                                        <input type="checkbox" id="like-1" class="heart-checkbox">
+                                        <label for="like-1" class="heart-label">
+                                            <i class="bi bi-heart heart-icon"></i>
+                                            <span class="like-count">66</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col item">
+                    <div class="d-flex item-container">
+                        <img src="../language learning website/assets/10.jpg" class="item-img" alt="Item Image 2">
+                        <div class="item-body d-flex flex-column">
+                            <h5 class="item-title">ONLINE OR FACE-TO-FACE? LEARNING ENGLISH TODAY</h5>
+                            <p class="item-text">Nam libero tempore, cum soluta nobis est eligendi optio</p>
+                            <div class="item-footer mt-auto d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-author">by Steven Master</small><br>
+                                    <small class="text-category">in News, Professional English</small>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2"><i class="bi bi-chat"></i> 0</span>
+                                    <div class="heart-container">
+                                        <input type="checkbox" id="like-2" class="heart-checkbox">
+                                        <label for="like-2" class="heart-label">
+                                            <i class="bi bi-heart heart-icon"></i>
+                                            <span class="like-count">45</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col item">
+                    <div class="d-flex item-container">
+                        <img src="../language learning website/assets/11.jpg" class="item-img" alt="Item Image 3">
+                        <div class="item-body d-flex flex-column">
+                            <h5 class="item-title">EFFECTIVE LECTURING SKILLS IN ENGLISH</h5>
+                            <p class="item-text">Temporibus autem quibusdam et aut officiis debitis aut rerum</p>
+                            <div class="item-footer mt-auto d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-author">by Steven Master</small><br>
+                                    <small class="text-category">in Advice, News</small>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2"><i class="bi bi-chat"></i> 0</span>
+                                    <div class="heart-container">
+                                        <input type="checkbox" id="like-3" class="heart-checkbox">
+                                        <label for="like-3" class="heart-label">
+                                            <i class="bi bi-heart heart-icon"></i>
+                                            <span class="like-count">53</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col item">
+                    <div class="d-flex item-container">
+                        <img src="../language learning website/assets/07.jpg" class="item-img" alt="Item Image 4">
+                        <div class="item-body d-flex flex-column">
+                            <h5 class="item-title">WHY ARE YOU THINKING ABOUT LEARNING BETTER ENGLISH?</h5>
+                            <p class="item-text">Nam libero tempore, cum soluta nobis est eligendi optio</p>
+                            <div class="item-footer mt-auto d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-author">by Steven Master</small><br>
+                                    <small class="text-category">in Advice, News</small>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2"><i class="bi bi-chat"></i> 0</span>
+                                    <div class="heart-container">
+                                        <input type="checkbox" id="like-4" class="heart-checkbox">
+                                        <label for="like-4" class="heart-label">
+                                            <i class="bi bi-heart heart-icon"></i>
+                                            <span class="like-count">58</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="w-100  bg-light cut"> </div>
+        <!-- Language School Section -->
+        <section class="language-school-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-12 text-content">
+                        <h1 class="section-title">Language School</h1>
+                        <h2 class="section-subtitle">Work with us. Learn with us. Improve with us.</h2>
+                        <div class="d-flex flex-column flex-md-row">
+                            <div class="text-column">
+                                <p class="section-text">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque fermentum massa vel enim feugiat gravida. Phasellus velit risus, euismod a lacus et, mattis condimentum augue. Vivamus fermentum ex quis imperdiet sodales. Sed aliquam nibh tellus, a rutrum turpis pellentesque ac. Nulla nibh libero, tincidunt cursus gravida ut, sodales ut magna. Sed sodales libero.
+                                </p>
+                            </div>
+                            <div class="progress-content">
+                                <div class="progress-bars">
+                                    <div class="progress-item">
+                                        <span class="progress-label">French</span>
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar progress-french" style="--progress: 80%"></div>
+                                        </div>
+                                        <span class="progress-value">80%</span>
+                                    </div>
+                                    <div class="progress-item">
+                                        <span class="progress-label">English</span>
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar progress-english" style="--progress: 86%"></div>
+                                        </div>
+                                        <span class="progress-value">86%</span>
+                                    </div>
+                                    <div class="progress-item">
+                                        <span class="progress-label">German</span>
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar progress-german" style="--progress: 78%"></div>
+                                        </div>
+                                        <span class="progress-value">78%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 image-content">
+                        <img src="../language learning website/assets/removed_bg-removebg-preview.png" class="bgimage" alt="Student with books">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Course Section -->
+        <section class="next-course-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-md-12 image-content">
+                        <div class="image-wrapper">
+                            <img src="../language learning website/assets/kid pfp.jpg" class="section-image" alt="Student">
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12 text-content text-center">
+                        <p class="section-subheading">LANGUAGE TRAININGS: EFFECTIVE PRESENTATIONS</p>
+                        <h1 class="section-heading">
+                            Next Course<br>Starting
+                        </h1>
+                        <div class="countdown-timer">
+                            <div class="timer-item">
+                                <span class="timer-value">271</span>
+                                <span class="timer-label">DAYS</span>
+                            </div>
+                            <div class="timer-item">
+                                <span class="timer-value">13</span>
+                                <span class="timer-label">HOURS</span>
+                            </div>
+                            <div class="timer-item">
+                                <span class="timer-value">26</span>
+                                <span class="timer-label">MINS</span>
+                            </div>
+                            <div class="timer-item">
+                                <span class="timer-value">08</span>
+                                <span class="timer-label">SECS</span>
+                            </div>
+                        </div>
+                        <p class="section-cta">BECOME A MEMBER TODAY</p>
+                    </div>
+                    <div class="col-lg-2 col-md-12 button-content text-center text-lg-end">
+                        <a href="#" class="learn-more-btn">LEARN MORE</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+         
+<section class="our-teachers-section">
+    <div class="container">
+        <h2 class="section-title">Our Teachers</h2>
+        <p class="section-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla diam nunc, a porta massa commodo a. Maecenas tincidunt lacinia ex vel rutrum. Nam convallis molestie turpis eget pretium. Sed dignissim quam at egestas iaculis. Nulla facilisi.
+        </p>
+    </div>
+</section>
+
+        <section class="team-section">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                    <div class="col">
+                        <div class="member-profile profile-1">
+                            <div class="colored-line"></div>
+                            <img src="../language learning website/assets/profile pic 1.jpg" class="team-image" alt="Danny">
+                            <h3 class="team-name">Danny Awesome</h3>
+                            <p class="team-role">MANAGER</p>
+                            <p class="team-description">
+                                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+                            </p>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                                <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                                <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="member-profile profile-2">
+                            <div class="colored-line"></div>
+                            <img src="../language learning website/assets/profile pic 4.jpg" class="team-image" alt="Kimberly">
+                            <h3 class="team-name">Kimberly Richie</h3>
+                            <p class="team-role">ENGLISH AND RUSSIAN</p>
+                            <p class="team-description">
+                                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos
+                            </p>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                                <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                                <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="member-profile profile-3">
+                            <div class="colored-line"></div>
+                            <img src="../language learning website/assets/profile pic 3.jpg" class="team-image" alt="Dylan">
+                            <h3 class="team-name">Dylan Taylor</h3>
+                            <p class="team-role">ENGLISH AND SPANISH</p>
+                            <p class="team-description">
+                                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+                            </p>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                                <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                                <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="member-profile profile-4">
+                            <div class="colored-line"></div>
+                            <img src="../language learning website/assets/profile pic 2.avif" class="team-image" alt="Amy">
+                            <h3 class="team-name">Amy Clarke</h3>
+                            <p class="team-role">CHINESE AND JAPANESE</p>
+                            <p class="team-description">
+                                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+                            </p>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                                <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                                <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="happy-students-section">
+            <div class="container">
+                <h2>OUR HAPPY STUDENTS</h2>
+                <div class="row">
+                    <!-- Testimonial Card 1 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="testimonial-card testimonial-card-1">
+                            <div class="speech-bubble">
+                                <h3>AWESOME!</h3>
+                                <p>Vivamus fermentum ex quis imperdiet sodales. Sed aliquam nibh tellus, a rutrum turpis pellentesque ac. Nulla nibh libero, tincidunt vero eos et accusamus et iusto odio dignissimos ducimus</p>
+                            </div>
+                            <div class="user-profile">
+                                <img src="../language learning website/assets/happy profile pic 1.jpg" alt="Kira Sims">
+                                <div class="user-info">
+                                    <h4>KIRA SIMS</h4>
+                                    <p>Student</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial Card 2 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="testimonial-card testimonial-card-2">
+                            <div class="speech-bubble">
+                                <h3>HIGH QUALITY!</h3>
+                                <p>Vivamus fermentum ex quis imperdiet sodales. Sed aliquam nibh tellus, a rutrum turpis pellentesque ac. Nulla nibh libero, tincidunt vero eos et accusamus et iusto odio dignissimos ducimus</p>
+                            </div>
+                            <div class="user-profile">
+                                <img src="../language learning website/assets/happy profile pic 2.jpg" alt="Phil Neal">
+                                <div class="user-info">
+                                    <h4>PHIL NEAL</h4>
+                                    <p>Designer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial Card 3 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="testimonial-card testimonial-card-3">
+                            <div class="speech-bubble">
+                                <h3>SO SIMPLE!</h3>
+                                <p>Vivamus fermentum ex quis imperdiet sodales. Sed aliquam nibh tellus, a rutrum turpis pellentesque ac. Nulla nibh libero, tincidunt vero eos et accusamus et iusto odio dignissimos ducimus</p>
+                            </div>
+                            <div class="user-profile">
+                                <img src="../language learning website/assets/happy profile pic 3.jpg" alt="Kira Sims">
+                                <div class="user-info">
+                                    <h4>KIRA SIMS</h4>
+                                    <p>Student</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer Section -->
+    <footer class="footer text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <p>Email: <a href="mailto:support@languagelearning.com">support@languagelearning.com</a></p>
+                    <p>Phone: <a href="tel:+1234567890">+123 456 7890</a></p>
+                    <p>Address: 123 Learning St, Language City</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <p><a href="#about">About Us</a></p>
+                    <p><a href="#courses">Courses</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <p>
+                        <a href="#" aria-label="Facebook">Facebook</a>
+                        <a href="#" aria-label="Twitter">Twitter</a>
+                        <a href="#" aria-label="Instagram">Instagram</a>
+                    </p>
+                </div>
+            </div>
+            <p class="mt-4">© 2025 Language Learning Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

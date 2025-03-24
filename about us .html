@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            position: relative;
+        }
+
+        /* Navbar */
+        .navbar {
+            z-index: 2;
+            position: relative;
+            background-color: #f8f9fa;
+        }
+
+        .navbar-collapse {
+            width: 100%;
+            background-color: #f8f9fa;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                padding: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navbar-nav .nav-item {
+                width: 100%;
+                text-align: center;
+                margin: 5px 0;
+            }
+
+            .navbar-nav .nav-link {
+                padding: 10px 0;
+                font-size: 1.1rem;
+            }
+
+            .dropdown-menu {
+                position: static;
+                width: 100%;
+                text-align: center;
+                border: none;
+                box-shadow: none;
+            }
+
+            .nav-item.dropdown:hover .dropdown-menu {
+                display: none;
+            }
+
+            .nav-item.dropdown .dropdown-menu.show {
+                display: block;
+            }
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 5px 10px;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            width: auto;
+        }
+
+        /* Add padding to the main content to prevent overlap with the navbar */
+        .main-content {
+            padding-top: px;
+        }
+
+        @media (max-width: 991px) {
+            .main-content {
+                padding-top: px;
+            }
+        }
+
+        /* About Header */
+        .about-header {
+            position: relative;
+            background: url('./assets/students\ standing\ about\ grop.jpg');
+            height: 70vh;
+            display: flex;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .about-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .about-header h1 {
+            position: relative;
+            z-index: 1;
+            font-size: 3.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .about-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 60px 0;
+            background-color: white;
+        }
+
+        .about-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .about-box h3 {
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+
+        @media (max-width: 768px) {
+            .about-box {
+                padding: 20px;
+            }
+            .about-box h3 {
+                font-size: 1.5rem;
+            }
+            .about-box p {
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Meet Our Team Section */
+        .meet-our-team-section {
+            padding: 4rem 0;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .team-heading {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .team-description {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 90%;
+        }
+
+        @media (max-width: 768px) {
+            .meet-our-team-section {
+                padding: 3rem 0;
+            }
+            .team-heading {
+                font-size: 2rem;
+            }
+            .team-description {
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .meet-our-team-section {
+                padding: 2rem 0;
+            }
+            .team-heading {
+                font-size: 1.5rem;
+            }
+            .team-description {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 3rem 0;
+        }
+
+        .member-profile {
+            background-color: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 1.5rem;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .colored-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+
+        .profile-1 .colored-line {
+            background-color: #FFD700;
+        }
+
+        .profile-2 .colored-line,
+        .profile-3 .colored-line,
+        .profile-4 .colored-line {
+            background-color: #00A1A7;
+        }
+
+        .team-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+        }
+
+        .team-name {
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-1 .team-name {
+            color: #FFD700;
+        }
+
+        .profile-2 .team-name,
+        .profile-3 .team-name,
+        .profile-4 .team-name {
+            color: #00A1A7;
+        }
+
+        .team-role {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .profile-1 .team-role {
+            color: #FFD700;
+        }
+
+        .profile-2 .team-role,
+        .profile-3 .team-role,
+        .profile-4 .team-role {
+            color: #00A1A7;
+        }
+
+        .team-description {
+            font-size: 0.875rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .social-icon {
+            font-size: 1rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon .bi-linkedin {
+            color: #0077B5;
+        }
+
+        .social-icon .bi-facebook {
+            color: #3B5998;
+        }
+
+        .social-icon .bi-twitter {
+            color: #1DA1F2;
+        }
+
+        .social-icon .bi-instagram {
+            color: #E1306C;
+        }
+
+        .social-icon:hover .bi-linkedin {
+            color: #005582;
+        }
+
+        .social-icon:hover .bi-facebook {
+            color: #2D4373;
+        }
+
+        .social-icon:hover .bi-twitter {
+            color: #1A91DA;
+        }
+
+        .social-icon:hover .bi-instagram {
+            color: #C13584;
+        }
+
+        @media (max-width: 767.98px) {
+            .team-section .row > .col {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+                margin-bottom: 20px;
+            }
+            .member-profile {
+                padding: 1rem;
+            }
+            .team-image {
+                width: 100px;
+                height: 100px;
+            }
+            .team-name {
+                font-size: 0.75rem;
+            }
+            .team-role {
+                font-size: 0.625rem;
+            }
+            .team-description {
+                font-size: 0.75rem;
+            }
+            .social-icons {
+                gap: 0.5rem;
+            }
+            .social-icon {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .team-section .row > .col {
+                flex: 0 0 50% !important;
+                max-width: 50% !important;
+                margin-bottom: 20px;
+            }
+            .member-profile {
+                padding: 1rem;
+            }
+            .team-image {
+                width: 120px;
+                height: 120px;
+            }
+            .team-name {
+                font-size: 0.875rem;
+            }
+            .team-role {
+                font-size: 0.625rem;
+            }
+            .team-description {
+                font-size: 0.75rem;
+            }
+            .social-icons {
+                gap: 0.5rem;
+            }
+            .social-icon {
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .team-section .row > .col {
+                flex: 0 0 25% !important;
+                max-width: 25% !important;
+            }
+            .member-profile {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Background Image */
+        .background-image {
+            background-image: url('./assets/coffee\ on\ table\ 2.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: scroll;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: -2;
+            top: 0;
+            left: 0;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            position: relative;
+            padding: 4rem 0;
+            background: none;
+        }
+
+        .stats-section h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+            text-align: center;
+            background-color: transparent;
+        }
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .stat {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0;
+            width: 200px;
+            color: #fff;
+        }
+
+        .stat h3 {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .stat p {
+            font-size: 1rem;
+            margin: 0;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .stats-section {
+                padding: 3rem 0;
+            }
+            .stats-section h2 {
+                font-size: 2rem;
+            }
+            .stat {
+                width: 180px;
+            }
+            .stat h3 {
+                font-size: 2rem;
+            }
+            .stat p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-section {
+                padding: 2rem 0;
+            }
+            .stats-section h2 {
+                font-size: 1.5rem;
+            }
+            .stat {
+                width: 100%;
+                max-width: 250px;
+            }
+            .stat h3 {
+                font-size: 1.8rem;
+            }
+            .stat p {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Latest News Section */
+        .latest-news-section {
+            padding: 4rem 0;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .latest-news-section h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 5rem;
+            text-transform: uppercase;
+        }
+
+        .news-card {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            overflow: hidden;
+            text-align: left;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .news-date {
+            font-size: 0.875rem;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .news-category {
+            font-size: 0.875rem;
+            color: #00A1A7;
+        }
+
+        @media (max-width: 768px) {
+            .latest-news-section {
+                padding: 3rem 0;
+            }
+            .latest-news-section h2 {
+                font-size: 2rem;
+            }
+            .news-card {
+                margin-bottom: 20px;
+            }
+            .news-image {
+                height: 180px;
+            }
+            .news-title {
+                font-size: 1.1rem;
+            }
+            .news-date,
+            .news-category {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .latest-news-section {
+                padding: 2rem 0;
+            }
+            .latest-news-section h2 {
+                font-size: 1.5rem;
+            }
+            .news-image {
+                height: 150px;
+            }
+            .news-title {
+                font-size: 1rem;
+            }
+        }
+
+        .tank {
+            background-color: white;
+        }
+         /* Footer */
+         .footer {
+            padding: 70px 0;
+            background: #343a40;
+            color: grey;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .footer a,
+        .footer p,
+        .footer h5 {
+            color: grey;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .footer a:hover,
+        .footer p:hover,
+        .footer h5:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Image -->
+    <div class="background-image"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="../language learning website/assets/language_logo-removebg-preview.png" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../language learning website/home page.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../language learning website/courses.html">Courses</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Features
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../language learning website/about us .html">About Us</a></li>
+                            <li><a class="dropdown-item" href="../language learning website/language program.html">language programs</a></li>
+                            <li><a class="dropdown-item" href="../language learning website/team.html">Team</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="../language learning website/contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary text-white" href="../language learning website/signup.html">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="tank">
+            <header class="about-header">
+                <h1>About Us</h1>
+            </header>
+
+            <section class="container about-section">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="about-box">
+                            <h3>History</h3>
+                            <p>We have been providing top-quality language education for over a decade, empowering students worldwide.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="about-box">
+                            <h3>Mission</h3>
+                            <p>Our mission is to make language learning accessible, engaging, and effective through innovative teaching methods.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="about-box">
+                            <h3>Philosophy</h3>
+                            <p>We believe in immersive, interactive learning experiences that help students master new languages effortlessly.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Meet Our Team Section -->
+            <section class="meet-our-team-section">
+                <div class="container">
+                    <h2 class="team-heading">Meet Our Team</h2>
+                    <p class="team-description">
+                        Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus ut aut reiciendis voluptatibus maiores alias consequuntur
+                    </p>
+                </div>
+            </section>
+
+            <section class="team-section">
+                <div class="container">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                        <div class="col">
+                            <div class="member-profile profile-1">
+                                <div class="colored-line"></div>
+                                <img src="../language learning website/assets/profile pic 1.jpg" class="team-image" alt="Danny">
+                                <h3 class="team-name">Danny Awesome</h3>
+                                <p class="team-role">MANAGER</p>
+                                <p class="team-description">
+                                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+                                </p>
+                                <div class="social-icons">
+                                    <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="member-profile profile-2">
+                                <div class="colored-line"></div>
+                                <img src="../language learning website/assets/profile pic 4.jpg" class="team-image" alt="Kimberly">
+                                <h3 class="team-name">Kimberly Richie</h3>
+                                <p class="team-role">ENGLISH AND RUSSIAN</p>
+                                <p class="team-description">
+                                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos
+                                </p>
+                                <div class="social-icons">
+                                    <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="member-profile profile-3">
+                                <div class="colored-line"></div>
+                                <img src="../language learning website/assets/profile pic 3.jpg" class="team-image" alt="Dylan">
+                                <h3 class="team-name">Dylan Taylor</h3>
+                                <p class="team-role">ENGLISH AND SPANISH</p>
+                                <p class="team-description">
+                                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+                                </p>
+                                <div class="social-icons">
+                                    <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="member-profile profile-4">
+                                <div class="colored-line"></div>
+                                <img src="../language learning website/assets/profile pic 2.avif" class="team-image" alt="Amy">
+                                <h3 class="team-name">Amy Clarke</h3>
+                                <p class="team-role">CHINESE AND JAPANESE</p>
+                                <p class="team-description">
+                                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+                                </p>
+                                <div class="social-icons">
+                                    <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                                    <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <h2>Language School In Numbers</h2>
+            <div class="content">
+                <div class="stats">
+                    <div class="stat">
+                        <h3>1258</h3>
+                        <p>International Students</p>
+                    </div>
+                    <div class="stat">
+                        <h3>35</h3>
+                        <p>Learning Programmes</p>
+                    </div>
+                    <div class="stat">
+                        <h3>12</h3>
+                        <p>Language Trainings</p>
+                    </div>
+                    <div class="stat">
+                        <h3>9</h3>
+                        <p>Branches</p>
+                    </div>
+                    <div class="stat">
+                        <h3>7</h3>
+                        <p>Specialized Programmes</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest News Section -->
+        <section class="latest-news-section">
+            <div class="container">
+                <h2>Latest News</h2>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="news-card">
+                            <img src="../language learning website/assets/02.jpg" class="news-image" alt="Students Interacting">
+                            <div class="news-content">
+                                <p class="news-date">December 1, 2015</p>
+                                <h3 class="news-title">Online or Face-to-Face? Learning English Today</h3>
+                                <p class="news-category">in News, Professional English</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="news-card">
+                            <img src="../language learning website/assets/01.jpg" class="news-image" alt="Student With Book">
+                            <div class="news-content">
+                                <p class="news-date">November 23, 2015</p>
+                                <h3 class="news-title">Why Are You Thinking About Learning Better English?</h3>
+                                <p class="news-category">in Advices, News</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="news-card">
+                            <img src="../language learning website/assets/13.jpg" class="news-image" alt="Group Of Students">
+                            <div class="news-content">
+                                <p class="news-date">November 17, 2015</p>
+                                <h3 class="news-title">Three Reasons Why English Spelling Is Confusing</h3>
+                                <p class="news-category">in News</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <!-- Footer Section -->
+    <footer class="footer text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <p>Email: <a href="mailto:support@languagelearning.com">support@languagelearning.com</a></p>
+                    <p>Phone: <a href="tel:+1234567890">+123 456 7890</a></p>
+                    <p>Address: 123 Learning St, Language City</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <p><a href="#about">About Us</a></p>
+                    <p><a href="#courses">Courses</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <p>
+                        <a href="#" aria-label="Facebook">Facebook</a>
+                        <a href="#" aria-label="Twitter">Twitter</a>
+                        <a href="#" aria-label="Instagram">Instagram</a>
+                    </p>
+                </div>
+            </div>
+            <p class="mt-4">© 2025 Language Learning Platform. All rights reserved.</p>
+        </div>
+    </footer>
+      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

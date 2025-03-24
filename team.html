@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        /* Your original styles remain unchanged, adding more animation styles below */
+        .navbar { z-index: 2; position: relative; }
+        .navbar-collapse { width: 100%; background-color: #f8f9fa; }
+        @media (max-width: 991px) {
+            .navbar-collapse { position: absolute; top: 100%; left: 0; right: 0; padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+            .navbar-nav { flex-direction: column; align-items: center; }
+            .navbar-nav .nav-item { width: 100%; text-align: center; margin: 5px 0; }
+            .navbar-nav .nav-link { padding: 10px 0; font-size: 1.1rem; }
+            .dropdown-menu { position: static; width: 100%; text-align: center; border: none; box-shadow: none; }
+            .nav-item.dropdown:hover .dropdown-menu { display: none; }
+            .nav-item.dropdown .dropdown-menu.show { display: block; }
+        }
+        .main-content { padding-top: 0; }
+        .navbar-toggler { border: none; padding: 5px 10px; }
+        .navbar-toggler-icon { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+        .navbar-brand img { height: 50px; width: auto; }
+        .professional-team-section { position: relative; background: url('./assets/07.jpg') no-repeat center/cover; height: 80vh; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
+        .professional-team-section::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); }
+        .professional-team-section h2 { position: relative; z-index: 1; font-size: 3.5rem; font-weight: bold; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; }
+        @media (max-width: 768px) { .professional-team-section { height: 40vh; } .professional-team-section h2 { font-size: 2.5rem; } }
+        @media (max-width: 480px) { .professional-team-section { height: 30vh; } .professional-team-section h2 { font-size: 2rem; } }
+        .director-section { padding: 4rem 0; background-color: #fff; }
+        .director-section .section-title { font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 2rem; text-align: center; }
+        .director-profile { position: relative; }
+        .image-wrapper { position: relative; width: 200px; height: 200px; margin: 0 auto 1rem; }
+        .image-wrapper::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 100%; background-color: #ff4d4d; }
+        .director-image { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        .director-role { font-size: 0.875rem; font-weight: bold; color: #ff4d4d; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .director-name { font-size: 1.25rem; font-weight: bold; color: #333; margin-bottom: 1rem; }
+        .social-icons { display: flex; justify-content: center; gap: 1rem; }
+        .social-icon { font-size: 1rem; text-decoration: none; transition: color 0.3s ease; }
+        .social-icon .bi-linkedin { color: #0077B5; }
+        .social-icon .bi-facebook { color: #3B5998; }
+        .social-icon .bi-twitter { color: #1DA1F2; }
+        .social-icon .bi-instagram { color: #E1306C; }
+        .social-icon:hover .bi-linkedin { color: #005582; }
+        .social-icon:hover .bi-facebook { color: #2D4373; }
+        .social-icon:hover .bi-twitter { color: #1A91DA; }
+        .social-icon:hover .bi-instagram { color: #C13584; }
+        .director-description { font-size: 0.875rem; color: #666; line-height: 1.6; margin-bottom: 1rem; }
+        @media (max-width: 991px) { .director-section .section-title { font-size: 1.25rem; } .director-profile { margin-bottom: 2rem; } .image-wrapper { width: 150px; height: 150px; } .director-role { font-size: 0.75rem; } .director-name { font-size: 1.1rem; } .social-icon { font-size: 0.875rem; } .director-description { font-size: 0.75rem; } }
+        @media (max-width: 767px) { .director-section { padding: 2rem 0; } .director-section .section-title { font-size: 1.1rem; } .image-wrapper { width: 120px; height: 120px; } .director-role { font-size: 0.625rem; } .director-name { font-size: 1rem; } .social-icon { font-size: 0.75rem; } .director-description { font-size: 0.7rem; } }
+        .language-choice-section { padding: 4rem 0; background-color: #fff; text-align: center; }
+        .language-choice-section .section-title { font-size: 1.5rem; font-weight: normal; color: #666; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .language-choice-section .section-description { font-size: 0.875rem; color: #666; line-height: 1.6; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .language-stats { display: flex; justify-content: center; gap: 8rem; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; position: relative; }
+        .stat-bar { width: 100px; height: 350px; background-color: #e9ecef; position: relative; overflow: hidden; }
+        .stat-bar::before { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 0; animation: fillBar 1.5s ease-in-out forwards; animation-delay: 0.5s; }
+        .stat-bar.german::before { background-color: #FFC107; animation-delay: 0.5s; }
+        .stat-bar.english::before { background-color: #00A1A7; animation-delay: 0.6s; }
+        .stat-bar.french::before { background-color: #FF4D4D; animation-delay: 0.7s; }
+        .stat-bar.spanish::before { background-color: #1E90FF; animation-delay: 0.8s; }
+        .stat-bar.russian::before { background-color: #32CD32; animation-delay: 0.9s; }
+        @keyframes fillBar { from { height: 0; } to { height: var(--height); } }
+        .stat-value { font-size: 1rem; font-weight: bold; color: #666; margin-bottom: 0.5rem; display: inline-block; }
+        .stat-value[data-target="84"] { animation: countTo84 1.5s ease-in-out forwards; animation-delay: 0.5s; }
+        .stat-value[data-target="100"] { animation: countTo100 1.5s ease-in-out forwards; animation-delay: 0.6s; }
+        .stat-value[data-target="77"] { animation: countTo77 1.5s ease-in-out forwards; animation-delay: 0.7s; }
+        .stat-value[data-target="92"] { animation: countTo92 1.5s ease-in-out forwards; animation-delay: 0.8s; }
+        .stat-value[data-target="78"] { animation: countTo78 1.5s ease-in-out forwards; animation-delay: 0.9s; }
+        @keyframes countTo84 { 0% { content: "0%"; } 10% { content: "10%"; } 20% { content: "20%"; } 30% { content: "30%"; } 40% { content: "40%"; } 50% { content: "50%"; } 60% { content: "60%"; } 70% { content: "70%"; } 80% { content: "80%"; } 90% { content: "82%"; } 100% { content: "84%"; } }
+        @keyframes countTo100 { 0% { content: "0%"; } 10% { content: "10%"; } 20% { content: "20%"; } 30% { content: "30%"; } 40% { content: "40%"; } 50% { content: "50%"; } 60% { content: "60%"; } 70% { content: "70%"; } 80% { content: "80%"; } 90% { content: "90%"; } 100% { content: "100%"; } }
+        @keyframes countTo77 { 0% { content: "0%"; } 10% { content: "10%"; } 20% { content: "20%"; } 30% { content: "30%"; } 40% { content: "40%"; } 50% { content: "50%"; } 60% { content: "60%"; } 70% { content: "70%"; } 80% { content: "75%"; } 90% { content: "76%"; } 100% { content: "77%"; } }
+        @keyframes countTo92 { 0% { content: "0%"; } 10% { content: "10%"; } 20% { content: "20%"; } 30% { content: "30%"; } 40% { content: "40%"; } 50% { content: "50%"; } 60% { content: "60%"; } 70% { content: "70%"; } 80% { content: "80%"; } 90% { content: "90%"; } 100% { content: "92%"; } }
+        @keyframes countTo78 { 0% { content: "0%"; } 10% { content: "10%"; } 20% { content: "20%"; } 30% { content: "30%"; } 40% { content: "40%"; } 50% { content: "50%"; } 60% { content: "60%"; } 70% { content: "70%"; } 80% { content: "75%"; } 90% { content: "77%"; } 100% { content: "78%"; } }
+        .stat-value::after { content: "0%"; animation: inherit; animation-delay: inherit; }
+        .stat-label { margin-top: 0.5rem; font-size: 0.875rem; font-weight: bold; color: #666; text-transform: uppercase; }
+        @media (max-width: 991px) { .language-choice-section .section-title { font-size: 1.25rem; } .language-choice-section .section-description { font-size: 0.75rem; } .language-stats { gap: 3rem; } .stat-bar { width: 80px; height: 300px; } .stat-value { font-size: 0.875rem; } .stat-label { font-size: 0.75rem; } }
+        @media (max-width: 767px) { .language-choice-section { padding: 2rem 0; } .language-choice-section .section-title { font-size: 1.1rem; } .language-choice-section .section-description { font-size: 0.7rem; } .language-stats { gap: 2rem; flex-wrap: wrap; } .stat-bar { width: 60px; height: 250px; } .stat-value { font-size: 0.75rem; } .stat-label { font-size: 0.625rem; } }
+        .team-section { padding: 3rem 0; background-color: white; }
+        .member-profile { background-color: #fff; border: 1px solid #e9ecef; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); text-align: center; padding: 1.5rem; position: relative; height: 100%; display: flex; flex-direction: column; }
+        .colored-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; }
+        .profile-1 .colored-line { background-color: #FFD700; }
+        .profile-2 .colored-line, .profile-3 .colored-line, .profile-4 .colored-line { background-color: #00A1A7; }
+        .team-image { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin: 0 auto 1rem; }
+        .team-name { font-size: 1rem; font-weight: bold; text-transform: uppercase; margin-bottom: 0.25rem; }
+        .profile-1 .team-name { color: #FFD700; }
+        .profile-2 .team-name, .profile-3 .team-name, .profile-4 .team-name { color: #00A1A7; }
+        .team-role { font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.75rem; }
+        .profile-1 .team-role { color: #FFD700; }
+        .profile-2 .team-role, .profile-3 .team-role, .profile-4 .team-role { color: #00A1A7; }
+        .team-description { font-size: 0.875rem; color: #666; line-height: 1.5; margin-bottom: 1rem; flex-grow: 1; }
+        @media (max-width: 767.98px) { .team-section .row > .col { flex: 0 0 100% !important; max-width: 100% !important; margin-bottom: 20px; } .member-profile { padding: 1rem; } .team-image { width: 100px; height: 100px; } .team-name { font-size: 0.75rem; } .team-role { font-size: 0.625rem; } .team-description { font-size: 0.75rem; } .social-icons { gap: 0.5rem; } .social-icon { font-size: 0.75rem; } }
+        @media (min-width: 768px) and (max-width: 991.98px) { .team-section .row > .col { flex: 0 0 50% !important; max-width: 50% !important; margin-bottom: 20px; } .member-profile { padding: 1rem; } .team-image { width: 120px; height: 120px; } .team-name { font-size: 0.875rem; } .team-role { font-size: 0.625rem; } .team-description { font-size: 0.75rem; } .social-icons { gap: 0.5rem; } .social-icon { font-size: 0.875rem; } }
+        @media (min-width: 992px) { .team-section .row > .col { flex: 0 0 25% !important; max-width: 25% !important; } .member-profile { padding: 1.5rem; } }
+        .our-teachers-section { padding: 4rem 0; background-color: #fff; text-align: center; }
+        .our-teachers-section .section-title { font-size: 2rem; font-weight: bold; color: #333; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .our-teachers-section .section-description { font-size: 0.875rem; color: #666; line-height: 1.6; max-width: 800px; margin-left: auto; margin-right: auto; }
+        @media (max-width: 991px) { .our-teachers-section .section-title { font-size: 1.5rem; } .our-teachers-section .section-description { font-size: 0.75rem; } }
+        @media (max-width: 767px) { .our-teachers-section { padding: 2rem 0; } .our-teachers-section .section-title { font-size: 1.25rem; } .our-teachers-section .section-description { font-size: 0.7rem; } }
+        .teacher-testimonials-section { padding: 4rem 0; background-color: #fff; }
+        .testimonial-item { text-align: left; }
+        .iconcol { border: 1px solid rgb(174, 174, 174); }
+        .icon { width: 30px; height: 50px; margin-bottom: 1rem; }
+        .quote-teal { filter: invert(46%) sepia(99%) saturate(1000%) hue-rotate(160deg) brightness(90%) contrast(90%); }
+        .quote-red { filter: invert(48%) sepia(90%) saturate(2000%) hue-rotate(340deg) brightness(95%) contrast(90%); }
+        .quote-yellow { filter: invert(75%) sepia(90%) saturate(1500%) hue-rotate(20deg) brightness(100%) contrast(90%); }
+        .quote-blue { filter: invert(50%) sepia(90%) saturate(2000%) hue-rotate(190deg) brightness(90%) contrast(90%); }
+        .testimonial-description { font-size: 0.875rem; color: #666; line-height: 1.6; margin-bottom: 1rem; }
+        .teacher-name { font-size: 1rem; font-weight: bold; color: #333; text-transform: uppercase; }
+        @media (min-width: 992px) { .row-cols-lg-2 { display: flex; flex-wrap: wrap; } .row-cols-lg-2 .col { flex: 0 0 50%; max-width: 50%; } }
+        @media (min-width: 768px) and (max-width: 991px) { .teacher-testimonials-section { padding: 3rem 0; } .row-cols-md-1 { display: flex; flex-direction: column; } .row-cols-md-1 .col { flex: 0 0 100%; max-width: 100%; margin-bottom: 2rem; } .testimonial-description { font-size: 0.75rem; } .teacher-name { font-size: 0.875rem; } }
+        @media (max-width: 767px) { .teacher-testimonials-section { padding: 2rem 0; } .row-cols-1 { display: flex; flex-direction: column; } .row-cols-1 .col { flex: 0 0 100%; max-width: 100%; margin-bottom: 1.5rem; } .testimonial-description { font-size: 0.7rem; } .teacher-name { font-size: 0.75rem; } .quote-icon { width: 30px; height: 30px; } }
+        .footer { padding: 70px 0; background: #343a40; color: grey; transition: color 0.3s ease-in-out; }
+        .footer a, .footer p, .footer h5 { color: grey; transition: color 0.3s ease-in-out; }
+        .footer a:hover, .footer p:hover, .footer h5:hover { color: white; }
+
+        /* Enhanced Animation Styles */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes rotateIn { from { opacity: 0; transform: rotate(-10deg); } to { opacity: 1; transform: rotate(0); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+
+        /* Section Load Animations */
+        .professional-team-section { animation: fadeIn 1s ease-out 0.2s both; }
+        .director-section { animation: slideUp 1s ease-out 0.4s both; }
+        .language-choice-section { animation: slideDown 1s ease-out 0.6s both; }
+        .our-teachers-section { animation: scaleIn 1s ease-out 0.8s both; }
+        .team-section { animation: slideUp 1s ease-out 1s both; }
+        .teacher-testimonials-section { animation: rotateIn 1s ease-out 1.2s both; }
+        .footer { animation: fadeIn 1s ease-out 1.4s both; }
+
+        /* Navbar Animations */
+        .navbar-nav .nav-item { animation: slideUp 0.5s ease-out both; }
+        .navbar-nav .nav-item:nth-child(1) { animation-delay: 0.1s; }
+        .navbar-nav .nav-item:nth-child(2) { animation-delay: 0.2s; }
+        .navbar-nav .nav-item:nth-child(3) { animation-delay: 0.3s; }
+        .navbar-nav .nav-item:nth-child(4) { animation-delay: 0.4s; }
+        .navbar-nav .nav-item:nth-child(5) { animation-delay: 0.5s; }
+        .navbar-nav .nav-link { transition: color 0.3s ease, transform 0.3s ease; }
+        .navbar-nav .nav-link:hover { color: #007bff; transform: translateY(-2px) scale(1.1); }
+        .dropdown-menu { opacity: 0; transform: translateY(10px) scale(0.9); transition: opacity 0.3s ease, transform 0.3s ease; display: block; }
+        .dropdown-menu.show { opacity: 1; transform: translateY(0) scale(1); }
+        .dropdown-item { animation: fadeIn 0.3s ease-out both; }
+        .dropdown-item:nth-child(1) { animation-delay: 0.1s; }
+        .dropdown-item:nth-child(2) { animation-delay: 0.2s; }
+        .dropdown-item:nth-child(3) { animation-delay: 0.3s; }
+
+        /* Section Title Animations */
+        .section-title { transition: transform 0.3s ease, color 0.3s ease; }
+        .section-title:hover { transform: scale(1.05) rotate(2deg); color: #007bff; }
+        .professional-team-section h2 { animation: pulse 2s infinite ease-in-out; }
+
+        /* Director Section Animations */
+        .director-profile { animation: scaleIn 0.8s ease-out 0.5s both; }
+        .director-profile:hover { transform: translateY(-5px) rotate(1deg); }
+        .director-image { animation: rotateIn 1s ease-out 0.6s both; transition: transform 0.3s ease; }
+        .director-image:hover { transform: scale(1.1) rotate(5deg); }
+        .director-role { animation: fadeIn 0.5s ease-out 0.7s both; }
+        .director-name { animation: slideUp 0.5s ease-out 0.8s both; }
+        .director-description { animation: fadeIn 0.5s ease-out 0.9s both; }
+        .social-icons { animation: bounce 1s ease-out 1s both; }
+        .social-icon { transition: transform 0.3s ease, opacity 0.3s ease; }
+        .social-icon:hover { transform: scale(1.3) rotate(10deg); opacity: 0.8; }
+
+        /* Language Stats Animations */
+        .stat-item { animation: slideUp 0.8s ease-out both; }
+        .stat-item:nth-child(1) { animation-delay: 0.7s; }
+        .stat-item:nth-child(2) { animation-delay: 0.8s; }
+        .stat-item:nth-child(3) { animation-delay: 0.9s; }
+        .stat-item:nth-child(4) { animation-delay: 1s; }
+        .stat-item:nth-child(5) { animation-delay: 1.1s; }
+        .stat-item:hover { transform: translateY(-5px) scale(1.05); }
+        .stat-label { animation: fadeIn 0.5s ease-out both; animation-delay: inherit; }
+        .stat-bar { transition: transform 0.3s ease; }
+        .stat-bar:hover { transform: scaleY(1.02); }
+
+        /* Team Section Animations */
+        .member-profile { animation: scaleIn 0.8s ease-out both; }
+        .member-profile:nth-child(1) { animation-delay: 1.1s; }
+        .member-profile:nth-child(2) { animation-delay: 1.2s; }
+        .member-profile:nth-child(3) { animation-delay: 1.3s; }
+        .member-profile:nth-child(4) { animation-delay: 1.4s; }
+        .member-profile:hover { transform: translateY(-10px) rotate(2deg); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+        .team-image { animation: rotateIn 1s ease-out both; animation-delay: inherit; }
+        .team-image:hover { transform: scale(1.1) rotate(-5deg); }
+        .team-name { animation: slideUp 0.5s ease-out both; animation-delay: calc(inherit + 0.1s); }
+        .team-role { animation: fadeIn 0.5s ease-out both; animation-delay: calc(inherit + 0.2s); }
+        .team-description { animation: slideDown 0.5s ease-out both; animation-delay: calc(inherit + 0.3s); }
+
+        /* Testimonial Section Animations */
+        .testimonial-item { animation: slideUp 0.8s ease-out both; }
+        .testimonial-item:nth-child(1) { animation-delay: 1.3s; }
+        .testimonial-item:nth-child(2) { animation-delay: 1.4s; }
+        .testimonial-item:nth-child(3) { animation-delay: 1.5s; }
+        .testimonial-item:nth-child(4) { animation-delay: 1.6s; }
+        .testimonial-item:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
+        .icon { animation: bounce 1s ease-out both; animation-delay: calc(inherit + 0.1s); }
+        .testimonial-description { animation: fadeIn 0.5s ease-out both; animation-delay: calc(inherit + 0.2s); }
+        .teacher-name { animation: slideUp 0.5s ease-out both; animation-delay: calc(inherit + 0.3s); }
+        .teacher-name:hover { transform: scale(1.05); }
+
+        /* Footer Animations */
+        .footer h5 { animation: slideDown 0.5s ease-out 1.5s both; }
+        .footer p { animation: fadeIn 0.5s ease-out both; }
+        .footer p:nth-child(1) { animation-delay: 1.6s; }
+        .footer p:nth-child(2) { animation-delay: 1.7s; }
+        .footer p:nth-child(3) { animation-delay: 1.8s; }
+        .footer a { transition: transform 0.3s ease, color 0.3s ease; }
+        .footer a:hover { transform: translateY(-2px) rotate(3deg); }
+    </style>
+</head>
+<body>
+    <!-- Your original HTML content unchanged -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="../language learning website/assets/language_logo-removebg-preview.png" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../language learning website/home page.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../language learning website/courses.html">Courses</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Features
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../language learning website/about us .html">About Us</a></li>
+                            <li><a class="dropdown-item" href="../language learning website/language program.html">Language Programs</a></li>
+                            <li><a class="dropdown-item" href="../language learning website/team.html">Team</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="../language learning website/contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary text-white" href="../language learning website/signup.html">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <section class="professional-team-section">
+            <h2>Our Professional Team</h2>
+        </section>
+    </div>
+
+    <section class="director-section">
+        <div class="container">
+            <h2 class="section-title">Richard Hill – Director of Language School</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-12 text-center text-lg-start">
+                    <div class="director-profile">
+                        <div class="image-wrapper">
+                            <img src="../language learning website/assets/director.jpg" alt="Richard Hill" class="director-image">
+                        </div>
+                        <h3 class="director-role">Director of Language School</h3>
+                        <h4 class="director-name">Richard Hill</h4>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                            <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <p class="director-description">
+                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint. Lorem ipsum is simply dummy text of the printing and typesetting industry.
+                    </p>
+                    <p class="director-description">
+                        Lorem ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="language-choice-section">
+        <div class="container">
+            <h2 class="section-title">Your Choice is Language School</h2>
+            <p class="section-description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget felis sit amet arcu facilisis dignissim et sit amet arcu. Mauris dui risus, consequat vitae leo non, consectetur malesuada tortor. Ut mollis a velit et pretium.
+            </p>
+            <div class="language-stats">
+                <div class="stat-item">
+                    <span class="stat-value" data-target="84"></span>
+                    <div class="stat-bar german" style="--height: 84%"></div>
+                    <span class="stat-label">German</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" data-target="100"></span>
+                    <div class="stat-bar english" style="--height: 100%"></div>
+                    <span class="stat-label">English</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" data-target="77"></span>
+                    <div class="stat-bar french" style="--height: 77%"></div>
+                    <span class="stat-label">French</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" data-target="92"></span>
+                    <div class="stat-bar spanish" style="--height: 92%"></div>
+                    <span class="stat-label">Spanish</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" data-target="78"></span>
+                    <div class="stat-bar russian" style="--height: 78%"></div>
+                    <span class="stat-label">Russian</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="our-teachers-section">
+        <div class="container">
+            <h2 class="section-title">Our Teachers</h2>
+            <p class="section-description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla diam nunc, a porta massa commodo a. Maecenas tincidunt lacinia ex vel rutrum. Nam convallis molestie turpis eget pretium. Sed dignissim quam at egestas iaculis. Nulla facilisi.
+            </p>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <div class="col">
+                    <div class="member-profile profile-1">
+                        <div class="colored-line"></div>
+                        <img src="../language learning website/assets/profile pic 1.jpg" class="team-image" alt="Danny">
+                        <h3 class="team-name">Danny Awesome</h3>
+                        <p class="team-role">MANAGER</p>
+                        <p class="team-description">
+                            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+                        </p>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                            <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="member-profile profile-2">
+                        <div class="colored-line"></div>
+                        <img src="../language learning website/assets/profile pic 4.jpg" class="team-image" alt="Kimberly">
+                        <h3 class="team-name">Kimberly Richie</h3>
+                        <p class="team-role">ENGLISH AND RUSSIAN</p>
+                        <p class="team-description">
+                            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos
+                        </p>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                            <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="member-profile profile-3">
+                        <div class="colored-line"></div>
+                        <img src="../language learning website/assets/profile pic 3.jpg" class="team-image" alt="Dylan">
+                        <h3 class="team-name">Dylan Taylor</h3>
+                        <p class="team-role">ENGLISH AND SPANISH</p>
+                        <p class="team-description">
+                            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+                        </p>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                            <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="member-profile profile-4">
+                        <div class="colored-line"></div>
+                        <img src="../language learning website/assets/profile pic 2.avif" class="team-image" alt="Amy">
+                        <h3 class="team-name">Amy Clarke</h3>
+                        <p class="team-role">CHINESE AND JAPANESE</p>
+                        <p class="team-description">
+                            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+                        </p>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                            <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="social-icon" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="teacher-testimonials-section">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-4">
+                <div class="col iconcol">
+                    <div class="testimonial-item">
+                        <img src="../language learning website/assets/green.PNG" class="icon" alt="Quote Icon">
+                        <p class="testimonial-description">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget felis sit amet arcu facilisis dignissim et sit amet arcu. Mauris dui risus, consequat vitae leo non, consectetur malesuada tortor. Ut mollis a velit et pretium. Aliquam ornare justo ut dui volutpat tincidunt. Sed tempor, neque in hendrerit ultrices, purus diam posuere dui, id fermentum risus felis a felis. Nulla bibendum dictum posuere.
+                        </p>
+                        <h3 class="teacher-name">Edward Evans</h3>
+                    </div>
+                </div>
+                <div class="col iconcol">
+                    <div class="testimonial-item">
+                        <img src="../language learning website/assets/red.PNG" class="icon" alt="Quote Icon">
+                        <p class="testimonial-description">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget felis sit amet arcu facilisis dignissim et sit amet arcu. Mauris dui risus, consequat vitae leo non, consectetur malesuada tortor. Ut mollis a velit et pretium. Aliquam ornare justo ut dui volutpat tincidunt. Sed tempor, neque in hendrerit ultrices, purus diam posuere dui, id fermentum risus felis a felis. Nulla bibendum dictum posuere.
+                        </p>
+                        <h3 class="teacher-name">Lola Hall</h3>
+                    </div>
+                </div>
+                <div class="col iconcol">
+                    <div class="testimonial-item">
+                        <img src="../language learning website/assets/yellow.PNG" class="icon" alt="Quote Icon">
+                        <p class="testimonial-description">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget felis sit amet arcu facilisis dignissim et sit amet arcu. Mauris dui risus, consequat vitae leo non, consectetur malesuada tortor. Ut mollis a velit et pretium. Aliquam ornare justo ut dui volutpat tincidunt. Sed tempor, neque in hendrerit ultrices, purus diam posuere dui, id fermentum risus felis a felis. Nulla bibendum dictum posuere.
+                        </p>
+                        <h3 class="teacher-name">James Jones</h3>
+                    </div>
+                </div>
+                <div class="col iconcol">
+                    <div class="testimonial-item">
+                        <img src="../language learning website/assets/blue.PNG" class="icon" alt="Quote Icon">
+                        <p class="testimonial-description">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget felis sit amet arcu facilisis dignissim et sit amet arcu. Mauris dui risus, consequat vitae leo non, consectetur malesuada tortor. Ut mollis a velit et pretium. Aliquam ornare justo ut dui volutpat tincidunt. Sed tempor, neque in hendrerit ultrices, purus diam posuere dui, id fermentum risus felis a felis. Nulla bibendum dictum posuere.
+                        </p>
+                        <h3 class="teacher-name">Olivia Taylor</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <p>Email: <a href="mailto:support@languagelearning.com">support@languagelearning.com</a></p>
+                    <p>Phone: <a href="tel:+1234567890">+123 456 7890</a></p>
+                    <p>Address: 123 Learning St, Language City</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <p><a href="#about">About Us</a></p>
+                    <p><a href="#courses">Courses</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <p>
+                        <a href="#" aria-label="Facebook">Facebook</a>
+                        <a href="#" aria-label="Twitter">Twitter</a>
+                        <a href="#" aria-label="Instagram">Instagram</a>
+                    </p>
+                </div>
+            </div>
+            <p class="mt-4">© 2025 Language Learning Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
